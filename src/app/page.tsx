@@ -85,7 +85,7 @@ const CalenderMain = () => {
     <div>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-        initialView="timeGridWeek"
+        initialView="dayGridMonth"
         weekends={true}
         allDayContent={false}
         allDaySlot={false}
