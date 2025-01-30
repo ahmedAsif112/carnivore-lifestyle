@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-import { useEffect, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import listPlugin from "@fullcalendar/list";
-import { Modal, Input, Typography, Radio, Select, Descriptions } from "antd";
-import { Option } from "antd/es/mentions";
-
-const { Text } = Typography;
+'use client';
+import { useEffect, useState } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
+import { Modal, Input, Radio, Select, Descriptions } from 'antd';
+import { Option } from 'antd/es/mentions';
 
 const CalenderMain = () => {
   const [allActivity, setAllActivity] = useState<any>([]);
@@ -17,13 +15,13 @@ const CalenderMain = () => {
   const [openAddEvent, setOpenAddEvent] = useState<any>(false); // Popup state for adding event
   const [openViewEvent, setOpenViewEvent] = useState<any>(false); // Popup state for viewing event
   const [newEvent, setNewEvent] = useState<any>({
-    plant: "",
-    location: "",
-    environment: "glasshouse",
-    soilType: "",
-    light: "",
-    water: "",
-    droughtResistant: "no",
+    plant: '',
+    location: '',
+    environment: 'glasshouse',
+    soilType: '',
+    light: '',
+    water: '',
+    droughtResistant: 'no',
   });
   const [selectedEvent, setSelectedEvent] = useState<any>(null); // Selected event details
 
@@ -32,8 +30,11 @@ const CalenderMain = () => {
   }, [allActivity]);
 
   const handleDateClick = (info: any) => {
-    setNewEvent({ ...newEvent, date: info.dateStr });
-    setOpenAddEvent(true); // Open popup to add event
+    const dateTime = new Date(info.date);
+    dateTime.setHours(12, 0, 0); // Default to noon if no time is provided
+
+    setNewEvent({ ...newEvent, date: dateTime.toISOString() });
+    setOpenAddEvent(true);
   };
 
   const handleEventClick = (info: any) => {
@@ -43,7 +44,15 @@ const CalenderMain = () => {
 
   const handleCloseAddEvent = () => {
     setOpenAddEvent(false);
-    setNewEvent({ name: "", class: "", date: "" });
+    setNewEvent({
+      plant: '',
+      location: '',
+      environment: '',
+      soilType: '',
+      light: '',
+      water: '',
+      droughtResistant: '',
+    });
   };
 
   const handleCloseViewEvent = () => {
@@ -90,11 +99,11 @@ const CalenderMain = () => {
         allDayContent={false}
         allDaySlot={false}
         events={calendarEvents}
-        height={"auto"}
+        height={'auto'}
         headerToolbar={{
-          left: "prev next today",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+          left: 'prev next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
         }}
         eventContent={renderEventContent}
         dateClick={handleDateClick} // Handle date clicks
@@ -112,7 +121,6 @@ const CalenderMain = () => {
           {/* Plant Selection */}
           <Select
             placeholder="Select Plant"
-            value={newEvent.plant}
             onChange={(value) => setNewEvent({ ...newEvent, plant: value })}
             className="w-full"
           >
@@ -124,7 +132,6 @@ const CalenderMain = () => {
           {/* Location Input */}
           <Input
             placeholder="Enter Location"
-            value={newEvent.location}
             onChange={(e) =>
               setNewEvent({ ...newEvent, location: e.target.value })
             }
@@ -133,7 +140,6 @@ const CalenderMain = () => {
 
           {/* Growing Environment */}
           <Radio.Group
-            value={newEvent.environment}
             onChange={(e) =>
               setNewEvent({ ...newEvent, environment: e.target.value })
             }
@@ -147,7 +153,6 @@ const CalenderMain = () => {
           {/* Soil Type */}
           <Select
             placeholder="Select Soil Type"
-            value={newEvent.soilType}
             onChange={(value) => setNewEvent({ ...newEvent, soilType: value })}
             className="w-full"
           >
@@ -159,7 +164,6 @@ const CalenderMain = () => {
           {/* Light Requirements */}
           <Select
             placeholder="Select Light Requirements"
-            value={newEvent.light}
             onChange={(value) => setNewEvent({ ...newEvent, light: value })}
             className="w-full"
           >
@@ -170,7 +174,6 @@ const CalenderMain = () => {
           {/* Watering Needs */}
           <Select
             placeholder="Select Watering Needs"
-            value={newEvent.water}
             onChange={(value) => setNewEvent({ ...newEvent, water: value })}
             className="w-full"
           >
