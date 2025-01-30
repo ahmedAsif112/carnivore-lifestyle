@@ -92,7 +92,7 @@ const CalenderMain = () => {
         events={calendarEvents}
         height={"auto"}
         headerToolbar={{
-          left: "prev,next today",
+          left: "prev next today",
           center: "title",
           right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         }}
