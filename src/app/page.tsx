@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
-import { useEffect, useState } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import listPlugin from '@fullcalendar/list';
-import { Modal, Input, Typography } from 'antd';
+"use client";
+import { useEffect, useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import listPlugin from "@fullcalendar/list";
+import { Modal, Input, Typography, Radio, Select, Descriptions } from "antd";
+import { Option } from "antd/es/mentions";
 
 const { Text } = Typography;
 
@@ -16,9 +17,13 @@ const CalenderMain = () => {
   const [openAddEvent, setOpenAddEvent] = useState<any>(false); // Popup state for adding event
   const [openViewEvent, setOpenViewEvent] = useState<any>(false); // Popup state for viewing event
   const [newEvent, setNewEvent] = useState<any>({
-    name: '',
-    class: '',
-    date: '',
+    plant: "",
+    location: "",
+    environment: "glasshouse",
+    soilType: "",
+    light: "",
+    water: "",
+    droughtResistant: "no",
   });
   const [selectedEvent, setSelectedEvent] = useState<any>(null); // Selected event details
 
@@ -32,13 +37,13 @@ const CalenderMain = () => {
   };
 
   const handleEventClick = (info: any) => {
-    setSelectedEvent(info.event); // Set selected event details
-    setOpenViewEvent(true); // Open popup to view event
+    setSelectedEvent(info.event);
+    setOpenViewEvent(true);
   };
 
   const handleCloseAddEvent = () => {
     setOpenAddEvent(false);
-    setNewEvent({ name: '', class: '', date: '' });
+    setNewEvent({ name: "", class: "", date: "" });
   };
 
   const handleCloseViewEvent = () => {
@@ -47,13 +52,31 @@ const CalenderMain = () => {
   };
 
   const handleSave = () => {
-    if (newEvent.name && newEvent.class && newEvent.date) {
+    if (
+      newEvent.plant &&
+      newEvent.location &&
+      newEvent.droughtResistant &&
+      newEvent.water &&
+      newEvent.light &&
+      newEvent.soilType &&
+      newEvent.environment &&
+      newEvent.date
+    ) {
       const eventToAdd = {
-        title: `${newEvent.name} - ${newEvent.class}`,
+        title: newEvent.plant,
         start: newEvent.date,
+        location: newEvent.location,
+        extendedProps: {
+          droughtResistant: newEvent.droughtResistant,
+          water: newEvent.water,
+          light: newEvent.light,
+          soilType: newEvent.soilType,
+          environment: newEvent.environment,
+        },
       };
-      setCalendarEvents((prev: any) => [...prev, eventToAdd]); // Update local calendar events
-      setAllActivity((prev: any) => [...(prev || []), eventToAdd]); // Update allActivity
+
+      setCalendarEvents((prev: any) => [...prev, eventToAdd]);
+      setAllActivity((prev: any) => [...(prev || []), eventToAdd]);
       handleCloseAddEvent();
     }
   };
@@ -67,11 +90,11 @@ const CalenderMain = () => {
         allDayContent={false}
         allDaySlot={false}
         events={calendarEvents}
-        height={'auto'}
+        height={"auto"}
         headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         }}
         eventContent={renderEventContent}
         dateClick={handleDateClick} // Handle date clicks
@@ -85,16 +108,90 @@ const CalenderMain = () => {
         onOk={handleSave}
         title="Add New Event"
       >
-        <Input
-          placeholder="Name"
-          value={newEvent.name}
-          onChange={(e) => setNewEvent({ ...newEvent, name: e.target.value })}
-        />
-        <Input
-          placeholder="Class"
-          value={newEvent.class}
-          onChange={(e) => setNewEvent({ ...newEvent, class: e.target.value })}
-        />
+        <div className="flex flex-col gap-4">
+          {/* Plant Selection */}
+          <Select
+            placeholder="Select Plant"
+            value={newEvent.plant}
+            onChange={(value) => setNewEvent({ ...newEvent, plant: value })}
+            className="w-full"
+          >
+            <Option value="rose">Rose</Option>
+            <Option value="sunflower">Sunflower</Option>
+            <Option value="tulip">Tulip</Option>
+          </Select>
+
+          {/* Location Input */}
+          <Input
+            placeholder="Enter Location"
+            value={newEvent.location}
+            onChange={(e) =>
+              setNewEvent({ ...newEvent, location: e.target.value })
+            }
+            className="w-full"
+          />
+
+          {/* Growing Environment */}
+          <Radio.Group
+            value={newEvent.environment}
+            onChange={(e) =>
+              setNewEvent({ ...newEvent, environment: e.target.value })
+            }
+            className="w-full flex flex-col gap-2"
+          >
+            <p className="font-normal">Growing Environment</p>
+            <Radio value="glasshouse">Glasshouse</Radio>
+            <Radio value="outdoor">Outdoor</Radio>
+          </Radio.Group>
+
+          {/* Soil Type */}
+          <Select
+            placeholder="Select Soil Type"
+            value={newEvent.soilType}
+            onChange={(value) => setNewEvent({ ...newEvent, soilType: value })}
+            className="w-full"
+          >
+            <Option value="sandy">Sandy</Option>
+            <Option value="loamy">Loamy</Option>
+            <Option value="clay">Clay</Option>
+          </Select>
+
+          {/* Light Requirements */}
+          <Select
+            placeholder="Select Light Requirements"
+            value={newEvent.light}
+            onChange={(value) => setNewEvent({ ...newEvent, light: value })}
+            className="w-full"
+          >
+            <Option value="full-sun">Full Sun</Option>
+            <Option value="partial-shade">Partial Shade</Option>
+          </Select>
+
+          {/* Watering Needs */}
+          <Select
+            placeholder="Select Watering Needs"
+            value={newEvent.water}
+            onChange={(value) => setNewEvent({ ...newEvent, water: value })}
+            className="w-full"
+          >
+            <Option value="low">Low</Option>
+            <Option value="medium">Medium</Option>
+            <Option value="high">High</Option>
+          </Select>
+
+          {/* Drought Resistance */}
+          <Radio.Group
+            value={newEvent.droughtResistant}
+            onChange={(e) =>
+              setNewEvent({ ...newEvent, droughtResistant: e.target.value })
+            }
+            className="w-full flex-col flex  gap-3"
+          >
+            <p className="font-normal">Drought Resistance</p>
+            <Radio value="yes">Yes</Radio>
+            <Radio value="no">No</Radio>
+          </Radio.Group>
+        </div>
       </Modal>
 
       {/* Modal for viewing event */}
@@ -105,17 +202,36 @@ const CalenderMain = () => {
         footer={null}
       >
         {selectedEvent && (
-          <>
-            <Text strong>Title:</Text> {selectedEvent.title}
-            <br />
-            <Text strong>Start:</Text> {selectedEvent.start.toLocaleString()}
-            {selectedEvent.end && (
+          <Descriptions column={1} bordered>
+            <Descriptions.Item label="Plant">
+              {selectedEvent.title}
+            </Descriptions.Item>
+            <Descriptions.Item label="Location">
+              {selectedEvent.extendedProps?.location}
+            </Descriptions.Item>
+            <Descriptions.Item label="Start">
+              {selectedEvent.start.toLocaleString()}
+            </Descriptions.Item>
+            {selectedEvent.extendedProps && (
               <>
-                <br />
-                <Text strong>End:</Text> {selectedEvent.end.toLocaleString()}
+                <Descriptions.Item label="Drought Resistant">
+                  {selectedEvent.extendedProps.droughtResistant}
+                </Descriptions.Item>
+                <Descriptions.Item label="Watering Needs">
+                  {selectedEvent.extendedProps.water}
+                </Descriptions.Item>
+                <Descriptions.Item label="Light Requirements">
+                  {selectedEvent.extendedProps.light}
+                </Descriptions.Item>
+                <Descriptions.Item label="Soil Type">
+                  {selectedEvent.extendedProps.soilType}
+                </Descriptions.Item>
+                <Descriptions.Item label="Environment">
+                  {selectedEvent.extendedProps.environment}
+                </Descriptions.Item>
               </>
             )}
-          </>
+          </Descriptions>
         )}
       </Modal>
     </div>
