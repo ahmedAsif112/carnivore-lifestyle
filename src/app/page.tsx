@@ -5,202 +5,170 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import listPlugin from '@fullcalendar/list';
-import { Modal, Input, Radio, Select, Descriptions } from 'antd';
-import { Option } from 'antd/es/mentions';
+import { Modal, Button, Select, Radio, Input, Descriptions } from 'antd';
+
+const { Option } = Select;
 
 const CalenderMain = () => {
-  const [allActivity, setAllActivity] = useState<any>([]);
-  const [calendarEvents, setCalendarEvents] = useState<any>([]); // Local state for calendar events
-  const [openAddEvent, setOpenAddEvent] = useState<any>(false); // Popup state for adding event
-  const [openViewEvent, setOpenViewEvent] = useState<any>(false); // Popup state for viewing event
-  const [newEvent, setNewEvent] = useState<any>({
+  const [calendarEvents, setCalendarEvents] = useState<any>([]);
+  const [filteredEvents, setFilteredEvents] = useState<any>([]);
+  const [openFilterModal, setOpenFilterModal] = useState(false);
+  const [openViewEvent, setOpenViewEvent] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
+  const [filters, setFilters] = useState({
     plant: '',
     location: '',
-    environment: 'glasshouse',
-    soilType: '',
-    light: '',
-    water: '',
-    droughtResistant: 'no',
+    environment: '',
   });
-  const [selectedEvent, setSelectedEvent] = useState<any>(null); // Selected event details
 
   useEffect(() => {
-    setCalendarEvents(allActivity || []);
-  }, [allActivity]);
+    // Define default slots
+    const events = [
+      {
+        title: 'Spring Planting',
+        start: '2025-03-15',
+        location: 'Farm A',
+        environment: 'Glasshouse',
+        details: 'Prepare soil for planting new crops',
+      },
+      {
+        title: 'Summer Growth',
+        start: '2025-06-10',
+        location: 'Farm B',
+        environment: 'Outdoor',
+        details: 'Monitor plant growth and fertilize as needed',
+      },
+      {
+        title: 'Harvest Time',
+        start: '2025-09-25',
+        location: 'Farm C',
+        environment: 'Glasshouse',
+        details: 'Harvest crops and prepare for next planting',
+      },
+      {
+        title: 'Winter Care',
+        start: '2025-12-05',
+        location: 'Farm D',
+        environment: 'Outdoor',
+        details: 'Protect plants from frost and prune as necessary',
+      },
+    ];
+    setCalendarEvents(events);
+    setFilteredEvents(events);
+  }, []);
 
-  const handleDateClick = (info: any) => {
-    const dateTime = new Date(info.date);
-    dateTime.setHours(12, 0, 0); // Default to noon if no time is provided
+  const applyFilters = () => {
+    let filtered = calendarEvents;
 
-    setNewEvent({ ...newEvent, date: dateTime.toISOString() });
-    setOpenAddEvent(true);
+    if (filters.plant) {
+      filtered = filtered.filter((event: any) =>
+        event.title.includes(filters.plant)
+      );
+    }
+    if (filters.location) {
+      filtered = filtered.filter(
+        (event: any) => event.location === filters.location
+      );
+    }
+    if (filters.environment) {
+      filtered = filtered.filter(
+        (event: any) => event.environment === filters.environment
+      );
+    }
+
+    setFilteredEvents(filtered);
+    setOpenFilterModal(false);
   };
 
   const handleEventClick = (info: any) => {
-    setSelectedEvent(info.event);
+    setSelectedEvent(info.event.extendedProps);
     setOpenViewEvent(true);
-  };
-
-  const handleCloseAddEvent = () => {
-    setOpenAddEvent(false);
-    setNewEvent({
-      plant: '',
-      location: '',
-      environment: '',
-      soilType: '',
-      light: '',
-      water: '',
-      droughtResistant: '',
-    });
-  };
-
-  const handleCloseViewEvent = () => {
-    setOpenViewEvent(false);
-    setSelectedEvent(null);
-  };
-
-  const handleSave = () => {
-    if (
-      newEvent.plant &&
-      newEvent.location &&
-      newEvent.droughtResistant &&
-      newEvent.water &&
-      newEvent.light &&
-      newEvent.soilType &&
-      newEvent.environment &&
-      newEvent.date
-    ) {
-      const eventToAdd = {
-        title: newEvent.plant,
-        start: newEvent.date,
-        location: newEvent.location,
-        extendedProps: {
-          droughtResistant: newEvent.droughtResistant,
-          water: newEvent.water,
-          light: newEvent.light,
-          soilType: newEvent.soilType,
-          environment: newEvent.environment,
-        },
-      };
-
-      setCalendarEvents((prev: any) => [...prev, eventToAdd]);
-      setAllActivity((prev: any) => [...(prev || []), eventToAdd]);
-      handleCloseAddEvent();
-    }
   };
 
   return (
     <div>
+      {/* Filters Button */}
+      <div className="flex justify-between mb-4">
+        <Button type="primary" onClick={() => setOpenFilterModal(true)}>
+          Open Filters
+        </Button>
+      </div>
+
+      {/* FullCalendar Component */}
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
-        initialView="dayGridMonth"
-        weekends={true}
-        allDayContent={false}
-        allDaySlot={false}
-        events={calendarEvents}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="multiMonthYear"
+        events={filteredEvents.map((event: any) => ({
+          ...event,
+          extendedProps: event, // Pass all event details
+        }))}
         height={'auto'}
+        selectable={false} // Disable interaction
+        editable={false} // Prevent modifications
         headerToolbar={{
-          left: 'prev next today',
+          left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+          right: 'multiMonthYear',
+        }}
+        views={{
+          multiMonthYear: {
+            type: 'dayGrid',
+            duration: { months: 12 },
+            buttonText: 'Year',
+          },
         }}
         eventContent={renderEventContent}
-        dateClick={handleDateClick} // Handle date clicks
-        eventClick={handleEventClick} // Handle event clicks
+        eventClick={handleEventClick} // Open event details modal on click
       />
 
-      {/* Modal for adding event */}
+      {/* Filter Modal */}
       <Modal
-        open={openAddEvent}
-        onCancel={handleCloseAddEvent}
-        onOk={handleSave}
-        title="Add New Event"
+        open={openFilterModal}
+        onCancel={() => setOpenFilterModal(false)}
+        onOk={applyFilters}
+        title="Filter Events"
       >
         <div className="flex flex-col gap-4">
-          {/* Plant Selection */}
+          {/* Plant Filter */}
           <Select
-            placeholder="Select Plant"
-            onChange={(value) => setNewEvent({ ...newEvent, plant: value })}
+            placeholder="Filter by Plant"
+            onChange={(value) => setFilters({ ...filters, plant: value })}
             className="w-full"
+            allowClear
           >
-            <Option value="rose">Rose</Option>
-            <Option value="sunflower">Sunflower</Option>
-            <Option value="tulip">Tulip</Option>
+            <Option value="Spring Planting">Spring Planting</Option>
+            <Option value="Summer Growth">Summer Growth</Option>
+            <Option value="Harvest Time">Harvest Time</Option>
+            <Option value="Winter Care">Winter Care</Option>
           </Select>
 
-          {/* Location Input */}
+          {/* Location Filter */}
           <Input
-            placeholder="Enter Location"
+            placeholder="Filter by Location"
             onChange={(e) =>
-              setNewEvent({ ...newEvent, location: e.target.value })
+              setFilters({ ...filters, location: e.target.value })
             }
             className="w-full"
           />
 
-          {/* Growing Environment */}
+          {/* Environment Filter */}
           <Radio.Group
             onChange={(e) =>
-              setNewEvent({ ...newEvent, environment: e.target.value })
+              setFilters({ ...filters, environment: e.target.value })
             }
             className="w-full flex flex-col gap-2"
           >
-            <p className="font-normal">Growing Environment</p>
-            <Radio value="glasshouse">Glasshouse</Radio>
-            <Radio value="outdoor">Outdoor</Radio>
-          </Radio.Group>
-
-          {/* Soil Type */}
-          <Select
-            placeholder="Select Soil Type"
-            onChange={(value) => setNewEvent({ ...newEvent, soilType: value })}
-            className="w-full"
-          >
-            <Option value="sandy">Sandy</Option>
-            <Option value="loamy">Loamy</Option>
-            <Option value="clay">Clay</Option>
-          </Select>
-
-          {/* Light Requirements */}
-          <Select
-            placeholder="Select Light Requirements"
-            onChange={(value) => setNewEvent({ ...newEvent, light: value })}
-            className="w-full"
-          >
-            <Option value="full-sun">Full Sun</Option>
-            <Option value="partial-shade">Partial Shade</Option>
-          </Select>
-
-          {/* Watering Needs */}
-          <Select
-            placeholder="Select Watering Needs"
-            onChange={(value) => setNewEvent({ ...newEvent, water: value })}
-            className="w-full"
-          >
-            <Option value="low">Low</Option>
-            <Option value="medium">Medium</Option>
-            <Option value="high">High</Option>
-          </Select>
-
-          {/* Drought Resistance */}
-          <Radio.Group
-            value={newEvent.droughtResistant}
-            onChange={(e) =>
-              setNewEvent({ ...newEvent, droughtResistant: e.target.value })
-            }
-            className="w-full flex-col flex  gap-3"
-          >
-            <p className="font-normal">Drought Resistance</p>
-            <Radio value="yes">Yes</Radio>
-            <Radio value="no">No</Radio>
+            <p className="font-normal">Environment</p>
+            <Radio value="Glasshouse">Glasshouse</Radio>
+            <Radio value="Outdoor">Outdoor</Radio>
           </Radio.Group>
         </div>
       </Modal>
 
-      {/* Modal for viewing event */}
+      {/* Event Details Modal */}
       <Modal
         open={openViewEvent}
-        onCancel={handleCloseViewEvent}
+        onCancel={() => setOpenViewEvent(false)}
         title="Event Details"
         footer={null}
       >
@@ -210,30 +178,17 @@ const CalenderMain = () => {
               {selectedEvent.title}
             </Descriptions.Item>
             <Descriptions.Item label="Location">
-              {selectedEvent.extendedProps?.location}
+              {selectedEvent.location}
             </Descriptions.Item>
             <Descriptions.Item label="Start">
-              {selectedEvent.start.toLocaleString()}
+              {new Date(selectedEvent.start).toLocaleString()}
             </Descriptions.Item>
-            {selectedEvent.extendedProps && (
-              <>
-                <Descriptions.Item label="Drought Resistant">
-                  {selectedEvent.extendedProps.droughtResistant}
-                </Descriptions.Item>
-                <Descriptions.Item label="Watering Needs">
-                  {selectedEvent.extendedProps.water}
-                </Descriptions.Item>
-                <Descriptions.Item label="Light Requirements">
-                  {selectedEvent.extendedProps.light}
-                </Descriptions.Item>
-                <Descriptions.Item label="Soil Type">
-                  {selectedEvent.extendedProps.soilType}
-                </Descriptions.Item>
-                <Descriptions.Item label="Environment">
-                  {selectedEvent.extendedProps.environment}
-                </Descriptions.Item>
-              </>
-            )}
+            <Descriptions.Item label="Environment">
+              {selectedEvent.environment}
+            </Descriptions.Item>
+            <Descriptions.Item label="Details">
+              {selectedEvent.details}
+            </Descriptions.Item>
           </Descriptions>
         )}
       </Modal>
@@ -244,8 +199,7 @@ const CalenderMain = () => {
 function renderEventContent(eventInfo: any) {
   return (
     <>
-      <b>{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
+      <b>{eventInfo.timeText}</b> <i>{eventInfo.event.title}</i>
     </>
   );
 }
