@@ -1,4 +1,5 @@
 'use client';
+import { Button, Descriptions, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 interface PlantData {
@@ -9,6 +10,15 @@ interface PlantData {
 
 const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
   const [plantData, setPlantData] = useState<PlantData | undefined>(undefined);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   console.log('plantData', plantData);
 
   useEffect(() => {
@@ -61,9 +71,13 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
                   {plantData?.data?.name}
                 </span>
                 <br />
-                <a href="#" className="text-blue-500 text-sm">
+                <Button
+                  type="link"
+                  onClick={showModal}
+                  className="text-blue-500 text-sm"
+                >
                   ℹ Crop info
-                </a>
+                </Button>
               </div>
             </td>
             {/* {Array(12)
@@ -90,6 +104,31 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
           </tr>
         </tbody>
       </table>
+
+      <Modal
+        title="Barley - Crop Information"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Descriptions bordered column={1} className="p-4">
+          <Descriptions.Item label={<strong>Growing Environment</strong>}>
+            Outdoor
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Soil Type</strong>}>
+            Sandy
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Light Requirements</strong>}>
+            Full Sun
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Watering Needs</strong>}>
+            High
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Drought Resistance</strong>}>
+            Yes
+          </Descriptions.Item>
+        </Descriptions>
+      </Modal>
     </div>
   );
 };
