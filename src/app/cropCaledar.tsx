@@ -5,6 +5,17 @@ import React, { useEffect, useState } from 'react';
 interface PlantData {
   data: {
     name: string;
+    status: string;
+    companion?: {
+      good?: string[];
+      bad?: string[];
+    };
+    type?: string;
+    light: string;
+    water: string;
+    required_soil_type: string;
+    growing_environment: string[];
+    season: string[];
   };
 }
 
@@ -19,7 +30,6 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  console.log('plantData', plantData);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -104,31 +114,72 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
           </tr>
         </tbody>
       </table>
-
-      <Modal
-        title="Barley - Crop Information"
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-      >
-        <Descriptions bordered column={1} className="p-4">
-          <Descriptions.Item label={<strong>Growing Environment</strong>}>
-            Outdoor
-          </Descriptions.Item>
-          <Descriptions.Item label={<strong>Soil Type</strong>}>
-            Sandy
-          </Descriptions.Item>
-          <Descriptions.Item label={<strong>Light Requirements</strong>}>
-            Full Sun
-          </Descriptions.Item>
-          <Descriptions.Item label={<strong>Watering Needs</strong>}>
-            High
-          </Descriptions.Item>
-          <Descriptions.Item label={<strong>Drought Resistance</strong>}>
-            Yes
-          </Descriptions.Item>
-        </Descriptions>
-      </Modal>
+      {isModalVisible && plantData && (
+        <Modal
+          title={`${plantData?.data?.name} - Crop Information`}
+          open={isModalVisible}
+          onCancel={handleCancel}
+          footer={false}
+          centered
+        >
+          <Descriptions bordered column={1} className="p-4">
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Status</strong>}
+            >
+              {plantData?.data?.status}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Companion Good</strong>}
+            >
+              {plantData?.data?.companion?.good?.join(', ')}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Companion Bad</strong>}
+            >
+              {plantData?.data?.companion?.bad?.join(', ')}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Type</strong>}
+            >
+              {plantData?.data?.type}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Light</strong>}
+            >
+              {plantData?.data?.light}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Water</strong>}
+            >
+              {plantData?.data?.water}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Season</strong>}
+            >
+              {plantData?.data?.season?.join(', ')}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Growing Environment</strong>}
+            >
+              {plantData?.data?.growing_environment?.join(', ')}
+            </Descriptions.Item>
+            <Descriptions.Item
+              className="capitalize"
+              label={<strong>Soil Type</strong>}
+            >
+              {plantData?.data?.required_soil_type}
+            </Descriptions.Item>
+          </Descriptions>
+        </Modal>
+      )}
     </div>
   );
 };
