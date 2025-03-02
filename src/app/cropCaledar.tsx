@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Descriptions } from 'antd';
+import { InfoCircleFilled } from '@ant-design/icons';
 
 interface PlantData {
   data: {
@@ -77,7 +78,7 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
             <td className="border p-2 flex items-center">
               <div>
                 <span className="font-semibold text-gray-800">
-                  `${plantData?.data?.name}
+                  {plantData?.data?.name}
                 </span>
                 <br />
                 <Button
@@ -85,7 +86,7 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
                   onClick={showModal}
                   className="text-blue-500 text-[15px] font-medium "
                 >
-                  Crop info
+                  <InfoCircleFilled /> Crop info
                 </Button>
               </div>
             </td>
@@ -117,18 +118,22 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
             >
               {plantData?.data?.status}
             </Descriptions.Item>
-            <Descriptions.Item
-              className="capitalize"
-              label={<strong>Companion Good</strong>}
-            >
-              {plantData?.data?.companion?.good?.join(', ')}
-            </Descriptions.Item>
-            <Descriptions.Item
-              className="capitalize"
-              label={<strong>Companion Bad</strong>}
-            >
-              {plantData?.data?.companion?.bad?.join(', ')}
-            </Descriptions.Item>
+            {plantData?.data?.companion?.good?.length ? (
+              <Descriptions.Item
+                className="capitalize"
+                label={<strong>Companion Good</strong>}
+              >
+                {plantData?.data?.companion?.good?.join(', ')}
+              </Descriptions.Item>
+            ) : null}
+            {plantData?.data?.companion?.bad?.length ? (
+              <Descriptions.Item
+                className="capitalize"
+                label={<strong>Companion Bad</strong>}
+              >
+                {plantData.data.companion.bad.join(', ')}
+              </Descriptions.Item>
+            ) : null}
             <Descriptions.Item
               className="capitalize"
               label={<strong>Type</strong>}
