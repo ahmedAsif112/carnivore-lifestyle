@@ -53,8 +53,18 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
           <tr className=" text-black">
             <th className="border p-2 w-40 text-left">Crop</th>
             {[
-              'January', 'February', 'March', 'April', 'May', 'June',
-              'July', 'August', 'September', 'October', 'November', 'December',
+              'January',
+              'February',
+              'March',
+              'April',
+              'May',
+              'June',
+              'July',
+              'August',
+              'September',
+              'October',
+              'November',
+              'December',
             ].map((month) => (
               <th key={month} className="border p-2 text-center">
                 {month}
@@ -66,19 +76,29 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
           <tr>
             <td className="border p-2 flex items-center">
               <div>
-                <span className="font-semibold text-gray-800">`${plantData?.data?.name}</span>
+                <span className="font-semibold text-gray-800">
+                  `${plantData?.data?.name}
+                </span>
                 <br />
-                <Button type="link" onClick={showModal} className="text-blue-500 text-[15px] font-medium ">
-                   Crop info
+                <Button
+                  type="link"
+                  onClick={showModal}
+                  className="text-blue-500 text-[15px] font-medium "
+                >
+                  Crop info
                 </Button>
               </div>
             </td>
-            {Array(12).fill('').map((_, index) => (
-              <td
-                key={index}
-                className={`border p-2 ${[4, 5].includes(index) ? 'bg-gray-700' : ''} ${[10, 11].includes(index) ? 'bg-green-500' : ''}`}
-              ></td>
-            ))}
+            {Array(12)
+              .fill('')
+              .map((_, index) => (
+                <td
+                  key={index}
+                  className={`border p-2 ${
+                    [4, 5].includes(index) ? 'bg-gray-700' : ''
+                  } ${[10, 11].includes(index) ? 'bg-green-500' : ''}`}
+                ></td>
+              ))}
           </tr>
         </tbody>
       </table>
@@ -113,13 +133,17 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
               className="capitalize"
               label={<strong>Type</strong>}
             >
-              {plantData?.data?.type}
+              {plantData?.data?.type
+                ?.replace(/_/g, ' ')
+                ?.replace(/\b\w/g, (char) => char?.toUpperCase())}
             </Descriptions.Item>
             <Descriptions.Item
               className="capitalize"
               label={<strong>Light</strong>}
             >
-              {plantData?.data?.light}
+              {plantData?.data?.light
+                ?.replace(/_/g, ' ')
+                ?.replace(/\b\w/g, (char) => char?.toUpperCase())}
             </Descriptions.Item>
             <Descriptions.Item
               className="capitalize"
