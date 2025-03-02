@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { Modal, Button, Descriptions } from 'antd';
+'use client';
+import { Button, Descriptions, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+
+interface PlantData {
+  data: {
+    name: string;
+  };
+}
 
 const CropCalendar = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -11,6 +18,23 @@ const CropCalendar = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  console.log('plantData', plantData);
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/plant/getDetails/${selectedItem}`
+        );
+        const data = await response.json();
+        setPlantData(data);
+      } catch (error) {
+        console.error('Error fetching options:', error);
+      }
+    };
+
+    fetchOptions();
+  }, [selectedItem]);
 
   return (
     <div className="overflow-x-auto pl-4 pr-4 mt-2">
@@ -49,13 +73,28 @@ const CropCalendar = () => {
         </tbody>
       </table>
 
-      <Modal title="Barley - Crop Information" visible={isModalVisible} onCancel={handleCancel} footer={null}>
+      <Modal
+        title="Barley - Crop Information"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
         <Descriptions bordered column={1} className="p-4">
-          <Descriptions.Item label={<strong>Growing Environment</strong>}>Outdoor</Descriptions.Item>
-          <Descriptions.Item label={<strong>Soil Type</strong>}>Sandy</Descriptions.Item>
-          <Descriptions.Item label={<strong>Light Requirements</strong>}>Full Sun</Descriptions.Item>
-          <Descriptions.Item label={<strong>Watering Needs</strong>}>High</Descriptions.Item>
-          <Descriptions.Item label={<strong>Drought Resistance</strong>}>Yes</Descriptions.Item>
+          <Descriptions.Item label={<strong>Growing Environment</strong>}>
+            Outdoor
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Soil Type</strong>}>
+            Sandy
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Light Requirements</strong>}>
+            Full Sun
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Watering Needs</strong>}>
+            High
+          </Descriptions.Item>
+          <Descriptions.Item label={<strong>Drought Resistance</strong>}>
+            Yes
+          </Descriptions.Item>
         </Descriptions>
       </Modal>
     </div>
