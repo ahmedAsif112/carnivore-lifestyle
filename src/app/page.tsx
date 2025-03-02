@@ -4,20 +4,26 @@ import { Select, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import CropCalendar from './cropCaledar';
 
-const { Option } = Select;
-
 const SelectorWithApi = () => {
-  const [options, setOptions] = useState<{ id: string; name: string }[]>([]);
-  const [selectedItem, setSelectedItem] = useState<string>('');
+  const [options, setOptions] = useState<{ value: string; label: string }[]>(
+    []
+  );
+  const [selectedItem, setSelectedItem] = useState<string>();
 
   useEffect(() => {
     const fetchOptions = async () => {
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/plant/getAll`
-        ); // Replace with your actual API endpoint
+        );
         const data = await response.json();
-        setOptions(data?.data);
+        const formattedOptions = data?.data.map(
+          (item: { id: string; name: string }) => ({
+            value: item.id,
+            label: item.name,
+          })
+        );
+        setOptions(formattedOptions);
       } catch (error) {
         console.error('Error fetching options:', error);
       }
@@ -26,13 +32,13 @@ const SelectorWithApi = () => {
     fetchOptions();
   }, []);
 
-  const handleChange = (values: string) => {
-    setSelectedItem(values);
+  const handleChange = (value: string) => {
+    setSelectedItem(value);
   };
 
   return (
     <div className="w-full py-4">
-      <div className=" flex justify-center h-full bg-white  shadow-md rounded-lg px-4 py-2 space-x-3">
+      <div className="flex justify-center h-full bg-white shadow-md rounded-lg px-4 py-2 space-x-3">
         {/* Icon */}
         <div>
           <span className="text-gray-600 text-2xl">🌱</span>
@@ -41,17 +47,19 @@ const SelectorWithApi = () => {
         {/* Select Dropdown */}
         <div>
           <Select
-            placeholder="Select items"
+            placeholder="Select Plants"
             value={selectedItem}
             onChange={handleChange}
             className="w-60 h-[30px]"
-          >
-            {options?.map((option) => (
-              <Option key={option?.id} value={option?.id}>
-                {option?.name}
-              </Option>
-            ))}
-          </Select>
+            showSearch
+            allowClear
+            options={options} // Directly passing options
+            filterOption={(input, option) =>
+              option
+                ? option.label.toLowerCase().includes(input.toLowerCase())
+                : false
+            }
+          />
         </div>
 
         {/* Search Button */}
