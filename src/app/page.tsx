@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Select, Button } from 'antd';
+import { Select, Button, Empty } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import CropCalendar from './cropCaledar';
 
@@ -9,6 +9,7 @@ const SelectorWithApi = () => {
     []
   );
   const [selectedItem, setSelectedItem] = useState<string>();
+  const [tempSelectedItem, setTempSelectedItem] = useState<string>(); // Temporary selection
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -32,8 +33,12 @@ const SelectorWithApi = () => {
     fetchOptions();
   }, []);
 
-  const handleChange = (value: string) => {
-    setSelectedItem(value);
+  const handleSelectChange = (value: string) => {
+    setTempSelectedItem(value); // Store the selection temporarily
+  };
+
+  const handleSearchClick = () => {
+    setSelectedItem(tempSelectedItem); // Update the actual selected item on search click
   };
 
   return (
@@ -48,12 +53,12 @@ const SelectorWithApi = () => {
         <div>
           <Select
             placeholder="Select Plants"
-            value={selectedItem}
-            onChange={handleChange}
+            value={tempSelectedItem} // Show temp selection
+            onChange={handleSelectChange}
             className="w-60 h-[30px]"
             showSearch
             allowClear
-            options={options} // Directly passing options
+            options={options}
             filterOption={(input, option) =>
               option
                 ? option.label.toLowerCase().includes(input.toLowerCase())
@@ -67,12 +72,21 @@ const SelectorWithApi = () => {
           <Button
             type="primary"
             className="bg-green-500 hover:bg-green-600 text-white flex items-center h-[30px]"
+            onClick={handleSearchClick} // Update selected item on button click
           >
             <SearchOutlined className="mr-1" /> Search
           </Button>
         </div>
       </div>
-      <CropCalendar />
+
+      {/* Display selected plant info */}
+      {selectedItem ? (
+        <CropCalendar selectedItem={selectedItem} />
+      ) : (
+        <div className="min-h-[80vh] flex justify-center items-center w-full">
+          <Empty />
+        </div>
+      )}
     </div>
   );
 };
