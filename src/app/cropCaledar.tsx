@@ -145,13 +145,17 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
               className="capitalize"
               label={<strong>Type</strong>}
             >
-              {plantData?.data?.type}
+              {plantData?.data?.type
+                ?.replace(/_/g, ' ')
+                ?.replace(/\b\w/g, (char) => char?.toUpperCase())}
             </Descriptions.Item>
             <Descriptions.Item
               className="capitalize"
               label={<strong>Light</strong>}
             >
-              {plantData?.data?.light}
+              {plantData?.data?.light
+                ?.replace(/_/g, ' ')
+                ?.replace(/\b\w/g, (char) => char?.toUpperCase())}
             </Descriptions.Item>
             <Descriptions.Item
               className="capitalize"
