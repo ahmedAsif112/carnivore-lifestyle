@@ -13,10 +13,10 @@ const CropCalendar = () => {
   };
 
   return (
-    <div className="overflow-x-auto mt-2">
-      <table className="min-w-full border-collapse border border-gray-300">
+    <div className="overflow-x-auto pl-4 pr-4 mt-2">
+      <table className="min-w-full border-collapse border bg-[rgb(241,241,241)] border-gray-300">
         <thead>
-          <tr className="bg-gray-100 text-gray-700">
+          <tr className=" text-black">
             <th className="border p-2 w-40 text-left">Crop</th>
             {[
               'January', 'February', 'March', 'April', 'May', 'June',
@@ -34,8 +34,8 @@ const CropCalendar = () => {
               <div>
                 <span className="font-semibold text-gray-800">Barley</span>
                 <br />
-                <Button type="link" onClick={showModal} className="text-blue-500 text-sm">
-                  ℹ Crop info
+                <Button type="link" onClick={showModal} className="text-blue-500 text-[15px] font-medium ">
+                   Crop info
                 </Button>
               </div>
             </td>
