@@ -19,6 +19,7 @@
     "antd": "^5.22.4",
     "axios": "^1.7.9",
     "calendar-admin": "file:",
+    "date-fns": "^4.1.0",
     "dompurify": "^3.2.3",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.18.0",
