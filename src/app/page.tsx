@@ -42,36 +42,34 @@ const SelectorWithApi = () => {
   };
 
   return (
-    <div className="w-full py-4">
-      <div className="flex justify-center h-full bg-white shadow-md rounded-lg px-4 py-2 space-x-3">
+    <div className="w-full py-4 px-2">
+      <div className="flex flex-wrap justify-center items-center bg-white shadow-md rounded-lg p-4 space-x-3 md:space-x-4">
         {/* Icon */}
         <div>
           <span className="text-gray-600 text-2xl">🌱</span>
         </div>
 
         {/* Select Dropdown */}
-        <div>
+        <div className="w-full sm:w-auto">
           <Select
             placeholder="Select Plants"
             value={tempSelectedItem} // Show temp selection
             onChange={handleSelectChange}
-            className="w-60 h-[30px]"
+            className="w-full sm:w-60 h-[30px]"
             showSearch
             allowClear
             options={options}
             filterOption={(input, option) =>
-              option
-                ? option.label.toLowerCase().includes(input.toLowerCase())
-                : false
+              option ? option.label.toLowerCase().includes(input.toLowerCase()) : false
             }
           />
         </div>
 
         {/* Search Button */}
-        <div>
+        <div className="w-full sm:w-auto flex justify-center">
           <Button
             type="primary"
-            className="bg-green-500 hover:bg-green-600 text-white flex items-center h-[30px]"
+            className="bg-green-500 hover:bg-green-600 text-white flex items-center justify-center h-[30px] w-full sm:w-auto"
             onClick={handleSearchClick} // Update selected item on button click
           >
             <SearchOutlined className="mr-1" /> Search

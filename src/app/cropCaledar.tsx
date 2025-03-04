@@ -91,6 +91,17 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
 
   return (
     <div className="overflow-x-auto pl-4 pr-4 mt-2">
+
+      <div className="flex items-center space-x-4 pb-6  justify-end pr-2 pt-5">
+      <div className="flex items-center space-x-2">
+        <div className="w-4 h-4 bg-green-500"></div>
+        <span className="text-gray-500">Sowing / Planting period</span>
+      </div>
+      <div className="flex items-center space-x-2">
+        <div className="w-4 h-4 bg-gray-800"></div>
+        <span className="text-gray-500">Harvesting period</span>
+      </div>
+    </div>
       <table className="min-w-full border-collapse border bg-[rgb(241,241,241)] border-gray-300">
         <thead>
           <tr className="text-black">
