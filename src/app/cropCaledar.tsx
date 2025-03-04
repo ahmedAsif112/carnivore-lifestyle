@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Descriptions } from 'antd';
 import { InfoCircleFilled } from '@ant-design/icons';
+import moment from 'moment-timezone';
 
 interface PlantData {
   data: {
@@ -16,6 +17,14 @@ interface PlantData {
     required_soil_type: string;
     growing_environment: string[];
     season: string[];
+    seeding_months?: {
+      start: string;
+      end: string;
+    };
+    harvest_months?: {
+      start: string;
+      end: string;
+    };
   };
 }
 
@@ -47,26 +56,46 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
     fetchOptions();
   }, [selectedItem]);
 
+  console.log('plantData', plantData);
+
+  const getMonthAndDay = (dateString: string) => {
+    const date = moment(dateString, 'DD-MM-YYYY');
+    return { month: date.month(), day: date.date() }; // Extract month (0-based) and day
+  };
+
+  const seedingStart = getMonthAndDay(
+    plantData?.data?.seeding_months?.start || ''
+  );
+  const seedingEnd = getMonthAndDay(plantData?.data?.seeding_months?.end || '');
+  const harvestingStart = getMonthAndDay(
+    plantData?.data?.harvest_months?.start || ''
+  );
+  const harvestingEnd = getMonthAndDay(
+    plantData?.data?.harvest_months?.end || ''
+  );
+
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
   return (
     <div className="overflow-x-auto pl-4 pr-4 mt-2">
       <table className="min-w-full border-collapse border bg-[rgb(241,241,241)] border-gray-300">
         <thead>
-          <tr className=" text-black">
+          <tr className="text-black">
             <th className="border p-2 w-40 text-left">Crop</th>
-            {[
-              'January',
-              'February',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-              'August',
-              'September',
-              'October',
-              'November',
-              'December',
-            ].map((month) => (
+            {months.map((month) => (
               <th key={month} className="border p-2 text-center">
                 {month}
               </th>
@@ -84,22 +113,53 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
                 <Button
                   type="link"
                   onClick={showModal}
-                  className="text-blue-500 text-[15px] font-medium "
+                  className="text-blue-500 text-[15px] font-medium"
                 >
                   <InfoCircleFilled /> Crop info
                 </Button>
               </div>
             </td>
-            {Array(12)
-              .fill('')
-              .map((_, index) => (
+            {months.map((_, index) => {
+              // Seeding Period Highlighting
+              let seedingClass = '';
+              if (index >= seedingStart.month && index <= seedingEnd.month) {
+                if (index === seedingStart.month && seedingStart.day > 15) {
+                  seedingClass = 'bg-green-500/50'; // Second half
+                } else if (index === seedingEnd.month && seedingEnd.day < 15) {
+                  seedingClass = 'bg-green-500/50'; // First half
+                } else {
+                  seedingClass = 'bg-green-500'; // Full month
+                }
+              }
+
+              // Harvesting Period Highlighting
+              let harvestingClass = '';
+              if (
+                index >= harvestingStart.month &&
+                index <= harvestingEnd.month
+              ) {
+                if (
+                  index === harvestingStart.month &&
+                  harvestingStart.day > 15
+                ) {
+                  harvestingClass = 'bg-gray-700/50'; // Second half
+                } else if (
+                  index === harvestingEnd.month &&
+                  harvestingEnd.day < 15
+                ) {
+                  harvestingClass = 'bg-gray-700/50'; // First half
+                } else {
+                  harvestingClass = 'bg-gray-700'; // Full month
+                }
+              }
+
+              return (
                 <td
                   key={index}
-                  className={`border p-2 ${
-                    [4, 5].includes(index) ? 'bg-gray-700' : ''
-                  } ${[10, 11].includes(index) ? 'bg-green-500' : ''}`}
+                  className={`border p-2 ${seedingClass} ${harvestingClass}`}
                 ></td>
-              ))}
+              );
+            })}
           </tr>
         </tbody>
       </table>
