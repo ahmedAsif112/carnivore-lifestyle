@@ -91,17 +91,16 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
 
   return (
     <div className="overflow-x-auto pl-4 pr-4 mt-2">
-
       <div className="flex items-center space-x-4 pb-6  justify-end pr-2 pt-5">
-      <div className="flex items-center space-x-2">
-        <div className="w-4 h-4 bg-green-500"></div>
-        <span className="text-gray-500">Sowing / Planting period</span>
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 bg-green-500"></div>
+          <span className="text-gray-500">Sowing / Planting period</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-4 h-4 bg-gray-800"></div>
+          <span className="text-gray-500">Harvesting period</span>
+        </div>
       </div>
-      <div className="flex items-center space-x-2">
-        <div className="w-4 h-4 bg-gray-800"></div>
-        <span className="text-gray-500">Harvesting period</span>
-      </div>
-    </div>
       <table className="min-w-full border-collapse border bg-[rgb(241,241,241)] border-gray-300">
         <thead>
           <tr className="text-black">
@@ -131,44 +130,27 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
               </div>
             </td>
             {months.map((_, index) => {
-              // Seeding Period Highlighting
-              let seedingClass = '';
-              if (index >= seedingStart.month && index <= seedingEnd.month) {
-                if (index === seedingStart.month && seedingStart.day > 15) {
-                  seedingClass = 'bg-green-500/50'; // Second half
-                } else if (index === seedingEnd.month && seedingEnd.day < 15) {
-                  seedingClass = 'bg-green-500/50'; // First half
-                } else {
-                  seedingClass = 'bg-green-500'; // Full month
-                }
-              }
+              let bgStyle = {};
 
-              // Harvesting Period Highlighting
-              let harvestingClass = '';
-              if (
-                index >= harvestingStart.month &&
-                index <= harvestingEnd.month
-              ) {
-                if (
-                  index === harvestingStart.month &&
-                  harvestingStart.day > 15
-                ) {
-                  harvestingClass = 'bg-gray-700/50'; // Second half
-                } else if (
-                  index === harvestingEnd.month &&
-                  harvestingEnd.day < 15
-                ) {
-                  harvestingClass = 'bg-gray-700/50'; // First half
-                } else {
-                  harvestingClass = 'bg-gray-700'; // Full month
-                }
+              const isSeeding =
+                index >= seedingStart.month && index <= seedingEnd.month;
+              const isHarvesting =
+                index >= harvestingStart.month && index <= harvestingEnd.month;
+
+              if (isSeeding && isHarvesting) {
+                // Half Green (Seeding) and Half Gray (Harvesting)
+                bgStyle = {
+                  background:
+                    'linear-gradient(to right, #22c55e 50%, #374151 50%)',
+                };
+              } else if (isSeeding) {
+                bgStyle = { backgroundColor: '#22c55e' }; // Green (Seeding)
+              } else if (isHarvesting) {
+                bgStyle = { backgroundColor: '#374151' }; // Gray (Harvesting)
               }
 
               return (
-                <td
-                  key={index}
-                  className={`border p-2 ${seedingClass} ${harvestingClass}`}
-                ></td>
+                <td key={index} className="border p-2" style={bgStyle}></td>
               );
             })}
           </tr>
