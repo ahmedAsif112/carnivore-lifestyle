@@ -2,6 +2,7 @@
 'use client';
 import WeatherCard from '@/components/Card';
 import Navbar from '@/components/Navbar';
+import { Spin } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -26,6 +27,7 @@ function Forecast() {
   const country = searchParams.get('country');
 
   const [weatherData, setWeatherData] = useState<any>(null);
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     if (!country || !countryCoordinates[country]) {
@@ -36,6 +38,7 @@ function Forecast() {
     const { lat, lon } = countryCoordinates[country];
 
     const fetchWeatherData = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/weather/getWeatherForcast?lat=${lat}&lon=${lon}`
@@ -45,11 +48,21 @@ function Forecast() {
         console.log('Weather Data:', data);
       } catch (error) {
         console.error('Error fetching weather data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchWeatherData();
   }, [country]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div>

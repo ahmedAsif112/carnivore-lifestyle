@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Descriptions } from 'antd';
+import { Modal, Button, Descriptions, Spin } from 'antd';
 import { InfoCircleFilled } from '@ant-design/icons';
 import moment from 'moment-timezone';
 
@@ -31,6 +31,7 @@ interface PlantData {
 const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
   const [plantData, setPlantData] = useState<PlantData | undefined>(undefined);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true); // Loading state
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -42,6 +43,7 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
 
   useEffect(() => {
     const fetchOptions = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/plant/getDetails/${selectedItem}`
@@ -50,6 +52,8 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
         setPlantData(data);
       } catch (error) {
         console.error('Error fetching options:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -86,6 +90,14 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
     'November',
     'December',
   ];
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div>
