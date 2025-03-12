@@ -20,6 +20,7 @@ const config: Config = {
         primary_text_color: "#6B7A99",
       },
       screens: {
+        smMobile: { max: "400px" },
         mobile: { max: "575px" },
         tablet: { max: "768px" },
         tabletlg: { max: "992px" },

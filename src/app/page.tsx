@@ -9,10 +9,12 @@ const SelectorWithApi = () => {
 
   const [plantOptions, setPlantOptions] = useState<
     { value: string; label: string }[]
+    
   >([]);
   const [selectedPlant, setSelectedPlant] = useState<string>();
   const [selectedCountry, setSelectedCountry] = useState<string>();
 
+  
   // Static country list
   const countryOptions = [
     { value: 'pl', label: 'Warsaw, Poland' },
@@ -28,6 +30,8 @@ const SelectorWithApi = () => {
     { value: 'au', label: 'Sydney, Australia' },
     { value: 'br', label: 'São Paulo, Brazil' },
     { value: 'jp', label: 'Tokyo, Japan' },
+    { value: 'ce', label: 'Cairo, Egypt' },
+    
   ];
 
   useEffect(() => {
@@ -46,7 +50,8 @@ const SelectorWithApi = () => {
         setPlantOptions(formattedOptions);
       } catch (error) {
         console.error('Error fetching plant options:', error);
-      }
+       }
+     
     };
 
     fetchPlantOptions();
@@ -55,13 +60,16 @@ const SelectorWithApi = () => {
   const handleSearchClick = () => {
     if (selectedPlant && selectedCountry) {
       router.push(`/calendar?id=${selectedPlant}&country=${selectedCountry}`);
+      message.success("Form submitted successfully! ")
     } else {
-      message.error('Please select both a plant and a country.');
+      message.error('Please select both plant and country.');
     }
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+    <div className="main-container">
+      <div  className="container">
+<div className="w-full min-h-screen mobile:px-7 bg-gray-100 flex flex-col items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg mt-10 h-[300px]">
         <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
           Select Your Plant & Country
@@ -99,12 +107,14 @@ const SelectorWithApi = () => {
           {/* Search Button */}
           <Button
             type="primary"
-            className="w-full bg-green-500 hover:bg-green-600 transition-all duration-300 text-white font-medium py-5 flex items-center justify-center rounded-md shadow-md"
+            className="w-full bg-green-500 hover:!bg-green-600 transition-all duration-300 text-white font-medium py-5 flex items-center justify-center rounded-md shadow-md"
             onClick={handleSearchClick}
           >
             <SearchOutlined className="mr-2" /> Search
           </Button>
         </div>
+      </div>
+    </div>
       </div>
     </div>
   );

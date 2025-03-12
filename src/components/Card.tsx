@@ -41,7 +41,7 @@ const WeatherForecast = ({ data }: { data: WeatherData[] }) => {
   // If no rain or storm, show Empty
   if (filteredData?.length === 0) {
     return (
-      <div className="flex justify-center items-center min-h-[40vh]">
+      <div className="flex justify-center items-center min-h-[80vh]">
         <Empty description="No Rain or Storm Expected" />
       </div>
     );
@@ -49,10 +49,18 @@ const WeatherForecast = ({ data }: { data: WeatherData[] }) => {
 
   return (
     <div className="bg-gray-100 p-4 min-h-screen">
-      <h2 className="text-2xl font-bold text-center mb-4">
-        Upcoming Rain & Storm Forecast
-      </h2>
-      <Row gutter={[16, 16]}>
+     <h2 className="text-[30px] font-extrabold text-center mb-6 pt-7 text-green-700">
+  <span className="inline-block px-3">
+    🌱
+  </span>
+  <span className="text-black bg-clip-text">
+    Upcoming Rain & Storm Forecast
+  </span>
+  <span className="inline-block px-3">
+    🌿
+  </span>
+</h2>
+      <Row gutter={[16, 16]} className='px-4'>
         {filteredData?.map((day, index) => {
           const date = moment?.unix(day?.dt).format('ddd, MMM D');
           const temperatureCelsius = (day?.temp?.day - 273.15)?.toFixed(1);
@@ -78,45 +86,45 @@ const WeatherForecast = ({ data }: { data: WeatherData[] }) => {
             WeatherIcon = WiCloudy;
 
           return (
-            <Col xs={24} sm={12} md={12} lg={8} xl={6} key={index}>
+            <Col xs={24} sm={12} md={12} lg={8} xl={6} key={index} className='pt-7 '>
               <Card
-                className="shadow-md rounded-lg text-center p-4"
+                className="shadow-md rounded-lg text-center p-4  "
                 bordered={false}
               >
                 {/* Date */}
                 <p className="text-lg font-semibold">{date}</p>
 
                 {/* Weather Icon & Description */}
-                <div className="flex flex-col items-center my-2">
+                <div className="flex flex-col items-center py-3 ">
                   <WeatherIcon className="text-5xl text-blue-500" />
                   <p className="text-md font-medium">{weatherDescription}</p>
                 </div>
 
                 {/* Temperature Details */}
-                <div className="text-left text-sm space-y-1">
+                <div className="mobile:flex mobile:items-center mobile:justify-center mobile:flex-col space-y-1 pt-5 ">
                   <p className="flex items-center">
-                    <WiThermometer className="mr-1 text-red-500" />
+                    <WiThermometer className="mr-1 text-red-500 text-[22px]" />
                     <strong>Temp:</strong> {temperatureCelsius}°C
                   </p>
                   <p className="flex items-center">
-                    <WiThermometerExterior className="mr-1 text-blue-500" />
+                    <WiThermometerExterior className="mr-1 text-blue-500 text-[22px]" />
                     <strong>Min Temp:</strong> {minTemp}°C
                   </p>
                   <p className="flex items-center">
-                    <WiThermometer className="mr-1 text-orange-500" />
+                    <WiThermometer className="mr-1 text-orange-500 text-[22px]" />
                     <strong>Max Temp:</strong> {maxTemp}°C
                   </p>
                   <p className="flex items-center">
-                    <WiStrongWind className="mr-1 text-gray-500" />
+                    <WiStrongWind className="mr-1 text-gray-500 text-[22px]" />
                     <strong>Wind:</strong> {windSpeed} m/s
                   </p>
                   <p className="flex items-center">
-                    <WiHumidity className="mr-1 text-blue-400" />
+                    <WiHumidity className="mr-1 text-blue-400 text-[22px]" />
                     <strong>Humidity:</strong> {humidity}%
                   </p>
                   {rain > 0 && (
                     <p className="flex items-center">
-                      <WiRain className="mr-1 text-blue-700" />
+                      <WiRain className="mr-1 text-blue-700 text-[22px]" />
                       <strong>Rain:</strong> {rain} mm
                     </p>
                   )}

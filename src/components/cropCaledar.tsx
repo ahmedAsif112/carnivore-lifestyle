@@ -100,9 +100,11 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
   }
 
   return (
-    <div>
+    <div className="main-container px-2">
+      <div  className="container">
+<div className='pt-6 '>
       <div className="overflow-x-auto pl-4 pr-4 mt-2 text-sm">
-        <div className="flex items-center space-x-4 pb-6   justify-end pr-2 pt-5">
+        <div className="flex items-center space-x-4 pb-6 smMobile:px-4 smMobile:text-[100%]   justify-end pr-2 pt-5">
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-green-500"></div>
             <span className="text-gray-500">Planting period</span>
@@ -116,8 +118,8 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
             <span className="text-gray-500">Planting & Harvesting period</span>
           </div>
         </div>
-        <div className="overflow-auto rounded-lg shadow-lg">
-          <table className=" w-full min-w-[800px] gap-5 bg-gray-100 rounded-lg">
+        <div className="overflow-auto rounded-lg  shadow-lg">
+          <table className=" w-full min-w-[800px] gap-5  bg-gray-100 rounded-lg">
             <thead>
               <tr className="text-black text-xs md:text-sm">
                 <th className="border p-2 w-40 text-left">Crop</th>
@@ -185,93 +187,82 @@ const CropCalendar = ({ selectedItem }: { selectedItem: string }) => {
         </div>
 
         {isModalVisible && plantData && (
-          <Modal
-            title={`${plantData?.data?.name} - Crop Information`}
-            open={isModalVisible}
-            onCancel={handleCancel}
-            footer={false}
-            centered
+         <div>
+  <Modal
+    className="mobile:px-2 max-w-[90%] sm:max-w-[60%]"
+    title={
+      <span className="text-sm sm:text-base">
+        {plantData?.data?.name} - Crop Information
+      </span>
+    }
+    open={isModalVisible}
+    onCancel={handleCancel}
+    footer={false}
+    centered
+    width={window.innerWidth < 640 ? 320 : 500} // Adjust width dynamically
+  >
+    <Descriptions bordered column={1} className="p-2 sm:p-4 text-sm sm:text-base">
+      {plantData?.data?.seeding_months?.start &&
+        plantData?.data?.seeding_months?.end && (
+          <Descriptions.Item
+            className="capitalize"
+            label={<strong className="text-xs sm:text-sm">Seeding Period</strong>}
           >
-            <Descriptions bordered column={1} className="p-4">
-              {plantData?.data?.seeding_months?.start &&
-                plantData?.data?.seeding_months?.end && (
-                  <Descriptions.Item
-                    className="capitalize"
-                    label={<strong>Seeding Period</strong>}
-                  >
-                    {plantData?.data?.seeding_months?.start} -{' '}
-                    {plantData?.data?.seeding_months?.end}
-                  </Descriptions.Item>
-                )}
-              {plantData?.data?.harvest_months?.start &&
-                plantData?.data?.harvest_months?.end && (
-                  <Descriptions.Item
-                    className="capitalize"
-                    label={<strong>Harvesting Period</strong>}
-                  >
-                    {plantData?.data?.harvest_months?.start} -{' '}
-                    {plantData?.data?.harvest_months?.end}
-                  </Descriptions.Item>
-                )}
-              {plantData?.data?.companion?.good?.length ? (
-                <Descriptions.Item
-                  className="capitalize"
-                  label={<strong>Companion Good</strong>}
-                >
-                  {plantData?.data?.companion?.good?.join(', ')}
-                </Descriptions.Item>
-              ) : null}
-              {plantData?.data?.companion?.bad?.length ? (
-                <Descriptions.Item
-                  className="capitalize"
-                  label={<strong>Companion Bad</strong>}
-                >
-                  {plantData.data.companion.bad.join(', ')}
-                </Descriptions.Item>
-              ) : null}
-              <Descriptions.Item
-                className="capitalize"
-                label={<strong>Type</strong>}
-              >
-                {plantData?.data?.type
-                  ?.replace(/_/g, ' ')
-                  ?.replace(/\b\w/g, (char) => char?.toUpperCase())}
-              </Descriptions.Item>
-              <Descriptions.Item
-                className="capitalize"
-                label={<strong>Light</strong>}
-              >
-                {plantData?.data?.light
-                  ?.replace(/_/g, ' ')
-                  ?.replace(/\b\w/g, (char) => char?.toUpperCase())}
-              </Descriptions.Item>
-              <Descriptions.Item
-                className="capitalize"
-                label={<strong>Water</strong>}
-              >
-                {plantData?.data?.water}
-              </Descriptions.Item>
-              <Descriptions.Item
-                className="capitalize"
-                label={<strong>Season</strong>}
-              >
-                {plantData?.data?.season?.join(', ')}
-              </Descriptions.Item>
-              <Descriptions.Item
-                className="capitalize"
-                label={<strong>Growing Environment</strong>}
-              >
-                {plantData?.data?.growing_environment?.join(', ')}
-              </Descriptions.Item>
-              <Descriptions.Item
-                className="capitalize"
-                label={<strong>Soil Type</strong>}
-              >
-                {plantData?.data?.required_soil_type}
-              </Descriptions.Item>
-            </Descriptions>
-          </Modal>
+            {plantData?.data?.seeding_months?.start} -{' '}
+            {plantData?.data?.seeding_months?.end}
+          </Descriptions.Item>
         )}
+      {plantData?.data?.harvest_months?.start &&
+        plantData?.data?.harvest_months?.end && (
+          <Descriptions.Item
+            className="capitalize"
+            label={<strong className="text-xs sm:text-sm">Harvesting Period</strong>}
+          >
+            {plantData?.data?.harvest_months?.start} -{' '}
+            {plantData?.data?.harvest_months?.end}
+          </Descriptions.Item>
+        )}
+      {plantData?.data?.companion?.good?.length ? (
+        <Descriptions.Item
+          className="capitalize"
+          label={<strong className="text-xs sm:text-sm">Companion Good</strong>}
+        >
+          {plantData?.data?.companion?.good?.join(', ')}
+        </Descriptions.Item>
+      ) : null}
+      {plantData?.data?.companion?.bad?.length ? (
+        <Descriptions.Item
+          className="capitalize"
+          label={<strong className="text-xs sm:text-sm">Companion Bad</strong>}
+        >
+          {plantData.data.companion.bad.join(', ')}
+        </Descriptions.Item>
+      ) : null}
+      <Descriptions.Item className="capitalize" label={<strong className="text-xs sm:text-sm">Type</strong>}>
+        {plantData?.data?.type?.replace(/_/g, ' ')?.replace(/\b\w/g, (char) => char?.toUpperCase())}
+      </Descriptions.Item>
+      <Descriptions.Item className="capitalize" label={<strong className="text-xs sm:text-sm">Light</strong>}>
+        {plantData?.data?.light?.replace(/_/g, ' ')?.replace(/\b\w/g, (char) => char?.toUpperCase())}
+      </Descriptions.Item>
+      <Descriptions.Item className="capitalize" label={<strong className="text-xs sm:text-sm">Water</strong>}>
+        {plantData?.data?.water}
+      </Descriptions.Item>
+      <Descriptions.Item className="capitalize" label={<strong className="text-xs sm:text-sm">Season</strong>}>
+        {plantData?.data?.season?.join(', ')}
+      </Descriptions.Item>
+      <Descriptions.Item className="capitalize" label={<strong className="text-xs sm:text-sm">Growing Environment</strong>}>
+        {plantData?.data?.growing_environment?.join(', ')}
+      </Descriptions.Item>
+      <Descriptions.Item className="capitalize" label={<strong className="text-xs sm:text-sm">Soil Type</strong>}>
+        {plantData?.data?.required_soil_type}
+      </Descriptions.Item>
+    </Descriptions>
+  </Modal>
+</div>
+
+        )}
+      </div>
+    </div>
       </div>
     </div>
   );

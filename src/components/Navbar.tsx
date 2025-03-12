@@ -16,8 +16,10 @@ const Navbar = () => {
   };
 
   return (
-    <div>
-      <nav className="flex items-center justify-between border-b p-3 gap-8">
+    <div className="main-container">
+      <div  className="container">
+<div>
+      <nav className="flex items-center justify-between border-b px-7 py-6 gap-8">
         <div className="flex gap-8 items-center">
           <div className="flex items-center text-xl font-bold">
             <span className="text-gray-600 text-2xl">🌱</span>
@@ -75,6 +77,8 @@ const Navbar = () => {
           </Tooltip>
         </div>
       </nav>
+    </div>
+      </div>
     </div>
   );
 };

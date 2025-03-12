@@ -20,6 +20,7 @@ const countryCoordinates: Record<string, { lat: number; lon: number }> = {
   au: { lat: -33.8688, lon: 151.2093 }, // Sydney, Australia
   br: { lat: -23.5505, lon: -46.6333 }, // São Paulo, Brazil
   jp: { lat: 35.6895, lon: 139.6917 }, // Tokyo, Japan
+  ce: { lat: 30.0444, lon: 31.2357 }, // Cairo, Egypt
 };
 
 function Forecast() {
@@ -65,9 +66,13 @@ function Forecast() {
   }
 
   return (
-    <div>
+    <div className="main-container">
+      <div  className="container">
+<div>
       <Navbar />
       <WeatherCard data={weatherData?.data?.daily} />
+    </div>
+      </div>
     </div>
   );
 }
