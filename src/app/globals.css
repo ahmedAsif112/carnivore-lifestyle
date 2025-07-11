@@ -131,3 +131,14 @@ p {
   border-top: 6px solid transparent;
   border-radius: 50%;
 }
+
+@media (max-width: 600px) {
+  .weight-loss-container {
+    min-width: 100%;
+  }
+}
+@media (max-width: 600px) {
+  .weightchart{
+    width: 100%;
+  }
+}
