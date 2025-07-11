@@ -2,21 +2,26 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 export default function AgePage() {
     const [age, setAge] = useState("");
     const router = useRouter();
 
     useEffect(() => {
-        const storedAge = localStorage.getItem("age");
-        if (storedAge) {
-            setAge(storedAge);
+        if (typeof window !== "undefined") {
+            const storedAge = localStorage.getItem("age");
+            if (storedAge) {
+                setAge(storedAge);
+            }
         }
     }, []);
 
     const handleContinue = () => {
         const numericAge = Number(age);
         if (!isNaN(numericAge) && numericAge >= 0) {
-            localStorage.setItem("age", age);
+            if (typeof window !== "undefined") {
+                localStorage.setItem("age", age);
+            }
         }
     };
 

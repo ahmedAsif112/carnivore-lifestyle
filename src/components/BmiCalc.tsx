@@ -3,37 +3,28 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-const getBMIColor = (bmi: number) => {
-    if (bmi < 18.5) return "bg-blue-400";
-    if (bmi < 25) return "bg-green-400";
-    if (bmi < 30) return "bg-yellow-400";
-    return "bg-red-400";
-};
 
 export default function BMIResult() {
     const router = useRouter();
-
-    const [height, setHeight] = useState<number | null>(null); // in cm
-    const [weight, setWeight] = useState<number | null>(null); // in kg
     const [bmi, setBMI] = useState<number | null>(null);
+
     const handleClick = () => {
-        router.push("/goalweight"); // Navigate to /target-route
+        router.push("/goalweight");
     };
+
     useEffect(() => {
         const cWeight = localStorage.getItem("cWeight");
         const heightValue = localStorage.getItem("height");
 
         if (cWeight && heightValue) {
-            const parsedWeight = JSON.parse(cWeight); // { value: 180, unit: "lbs" or "kg" }
-            const parsedHeight = JSON.parse(heightValue); // { value: ..., unit: "ft" or "cm" }
+            const parsedWeight = JSON.parse(cWeight);
+            const parsedHeight = JSON.parse(heightValue);
 
-            // Convert weight to kg if needed
             let kg = parsedWeight.value;
             if (parsedWeight.unit === "lbs") {
-                kg = +(kg * 0.453592).toFixed(1); // Convert lbs to kg
+                kg = +(kg * 0.453592).toFixed(1);
             }
 
-            // Convert height to cm if needed
             let heightInCm = 0;
             if (parsedHeight.unit === "ft") {
                 const feet = parsedHeight.value.feet;
@@ -43,9 +34,6 @@ export default function BMIResult() {
             } else if (parsedHeight.unit === "cm") {
                 heightInCm = parsedHeight.value;
             }
-
-            setWeight(kg);
-            setHeight(heightInCm);
 
             const heightInMeters = heightInCm / 100;
             const calculatedBMI = +(kg / (heightInMeters * heightInMeters)).toFixed(1);
@@ -81,14 +69,11 @@ export default function BMIResult() {
                     <div>30</div>
                 </div>
 
-                {/* BMI Graph Bar */}
                 <div className="relative w-[320px] h-6 rounded-none overflow-hidden mb-4">
                     <div className="absolute h-full w-1/4 bg-blue-400" />
                     <div className="absolute left-1/4 h-full w-1/4 bg-green-400" />
                     <div className="absolute left-2/4 h-full w-1/4 bg-yellow-400" />
                     <div className="absolute left-3/4 h-full w-1/4 bg-red-400" />
-
-                    {/* Arrow Pointer */}
                     <div
                         className="absolute -top-5 text-4xl"
                         style={{ left: `calc(${getArrowPosition()}% - 24px)` }}

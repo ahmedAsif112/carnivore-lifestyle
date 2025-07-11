@@ -14,16 +14,20 @@ export default function Gender() {
     ];
 
     useEffect(() => {
-        const storedGender = localStorage.getItem("gender");
-        if (storedGender) {
-            const index = options.findIndex(option => option.label === storedGender);
-            if (index !== -1) setSelectedIndex(index);
+        if (typeof window !== "undefined") {
+            const storedGender = localStorage.getItem("gender");
+            if (storedGender) {
+                const index = options.findIndex(option => option.label === storedGender);
+                if (index !== -1) setSelectedIndex(index);
+            }
         }
     }, []);
 
     const handleSelect = (index: number) => {
         setSelectedIndex(index);
-        localStorage.setItem("gender", options[index].label);
+        if (typeof window !== "undefined") {
+            localStorage.setItem("gender", options[index].label);
+        }
         router.push("/dailyactivity");
     };
 
@@ -45,7 +49,7 @@ export default function Gender() {
                         <button
                             key={index}
                             onClick={() => handleSelect(index)}
-                            className={`w-full flex items-center justify-between px-6 py-4  rounded-xl text-[14px] font-medium transition ${selectedIndex === index
+                            className={`w-full flex items-center justify-between px-6 py-4 rounded-xl text-[14px] font-medium transition ${selectedIndex === index
                                 ? "bg-[#F43F5E] text-white"
                                 : "bg-gray-100 hover:bg-gray-200"
                                 }`}

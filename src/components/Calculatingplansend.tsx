@@ -1,4 +1,3 @@
-// File: app/page.tsx (for Next.js 13+ App Router)
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -24,10 +23,9 @@ export default function Home() {
     const [testimonialIndex, setTestimonialIndex] = useState(0);
 
     useEffect(() => {
-        let interval: NodeJS.Timeout;
-        let startTime = Date.now();
+        const startTime = Date.now();
 
-        const tick = () => {
+        const interval: NodeJS.Timeout = setInterval(() => {
             const elapsed = Date.now() - startTime;
             const percentage = Math.min((elapsed / 4000) * 100, 100);
             setProgress(percentage);
@@ -43,9 +41,8 @@ export default function Home() {
                     setTimeout(() => router.push('/reward'), 500);
                 }
             }
-        };
+        }, 33);
 
-        interval = setInterval(tick, 33);
         return () => clearInterval(interval);
     }, [currentIndex]);
 

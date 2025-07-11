@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import WeightProgressChart from "./Chart";
 import { useRouter } from "next/navigation";
 
 export default function GoalWeight() {
@@ -11,28 +10,30 @@ export default function GoalWeight() {
     const [gWeight, setgWeight] = useState('');
 
     useEffect(() => {
-        const storedWeight = localStorage.getItem("goalWeight");
-        if (storedWeight) {
-            try {
-                const { value, unit } = JSON.parse(storedWeight);
-                if (value) setgWeight(String(value));
-                if (unit === 'lbs' || unit === 'kg') setUnit(unit);
-            } catch {
-                // ignore corrupted data
+        if (typeof window !== "undefined") {
+            const storedWeight = localStorage.getItem("goalWeight");
+            if (storedWeight) {
+                try {
+                    const { value, unit } = JSON.parse(storedWeight);
+                    if (value) setgWeight(String(value));
+                    if (unit === 'lbs' || unit === 'kg') setUnit(unit);
+                } catch {
+                    // ignore corrupted data
+                }
             }
         }
     }, []);
 
     const handleSelect = () => {
-        router.push("/goalsetscreen"); // Navigate to /target-route
+        router.push("/goalsetscreen");
     };
-
-
 
     const handleContinue = () => {
         const numericWeight = Number(gWeight);
         if (!isNaN(numericWeight) && numericWeight > 0) {
-            localStorage.setItem("goalWeight", JSON.stringify({ value: numericWeight, unit }));
+            if (typeof window !== "undefined") {
+                localStorage.setItem("goalWeight", JSON.stringify({ value: numericWeight, unit }));
+            }
         }
     };
 
@@ -87,9 +88,7 @@ export default function GoalWeight() {
                 >
                     Continue
                 </button>
-
             </div>
-
         </motion.div>
     );
 }

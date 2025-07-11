@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 const plans = [
     {
@@ -12,7 +11,6 @@ const plans = [
 ];
 
 export default function PlanPage() {
-    const router = useRouter();
     const [selectedPlan, setSelectedPlan] = useState('4w');
     const [timeLeft, setTimeLeft] = useState(10 * 60);
     const [email, setEmail] = useState('');

@@ -9,13 +9,19 @@ export default function NameInput() {
     const router = useRouter();
 
     useEffect(() => {
-        const storedName = localStorage.getItem("name");
-        if (storedName) setName(storedName);
+        if (typeof window !== "undefined") {
+            const storedName = localStorage.getItem("name");
+            if (storedName) setName(storedName);
+        }
     }, []);
 
     const handleContinue = () => {
         if (!name.trim()) return;
-        localStorage.setItem("name", name.trim());
+
+        if (typeof window !== "undefined") {
+            localStorage.setItem("name", name.trim());
+        }
+
         router.push("/profile");
     };
 

@@ -1,6 +1,5 @@
 "use client";
 import { motion } from "framer-motion";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -20,8 +19,11 @@ export default function SignupScreen() {
             return;
         }
 
-        localStorage.setItem("email", email);
-        router.push("/almostdone"); // update with your actual route
+        if (typeof window !== "undefined") {
+            localStorage.setItem("email", email);
+        }
+
+        router.push("/almostdone");
     };
 
     return (

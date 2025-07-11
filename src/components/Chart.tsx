@@ -1,7 +1,7 @@
-// src/components/WeightProgressChart.tsx
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -10,6 +10,10 @@ import {
     LineElement,
     Tooltip,
     Legend,
+    ChartOptions,
+    ChartData,
+    ScriptableLineSegmentContext,
+    TooltipItem
 } from "chart.js";
 import ChartDataLabels, { Context } from "chartjs-plugin-datalabels";
 import { Line } from "react-chartjs-2";
@@ -24,7 +28,6 @@ ChartJS.register(
     Legend,
     ChartDataLabels
 );
-
 
 const testimonials = [
     {
@@ -46,21 +49,25 @@ const testimonials = [
 
 const WeightProgressChart = () => {
     const router = useRouter();
-    const handleSelect = () => {
-        router.push("/halfwaythere");
-    };
-    const cWeight = JSON.parse(localStorage.getItem("cWeight"))?.value || 92;
-    const goalWeight = JSON.parse(localStorage.getItem("goalWeight"))?.value || 82;
-    const name = localStorage.getItem("name") || "Ahmed";
-    const unit = JSON.parse(localStorage.getItem("unit")) || "kg";
-
-    const convertToLbs = (kg: number) => kg * 2.20462;
-    const formatWeight = (value: number) =>
-        unit === "lbs" ? `${convertToLbs(value).toFixed(1)} lbs` : `${value.toFixed(1)} kg`;
-    const formatWeightNoDecimal = (value: number) =>
-        unit === "lbs" ? `${Math.round(convertToLbs(value))} lbs` : `${Math.round(value)} kg`;
-
+    const [unit, setUnit] = useState<"kg" | "lbs">("kg");
+    const [cWeight, setCWeight] = useState<number>(92);
+    const [goalWeight, setGoalWeight] = useState<number>(82);
+    const [name, setName] = useState("Ahmed");
     const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedCWeight = JSON.parse(localStorage.getItem("cWeight") || "null");
+            const storedGoalWeight = JSON.parse(localStorage.getItem("goalWeight") || "null");
+            const storedName = localStorage.getItem("name");
+            const storedUnit = JSON.parse(localStorage.getItem("unit") || `"kg"`);
+
+            if (storedCWeight?.value) setCWeight(storedCWeight.value);
+            if (storedGoalWeight?.value) setGoalWeight(storedGoalWeight.value);
+            if (storedName) setName(storedName);
+            if (storedUnit === "lbs" || storedUnit === "kg") setUnit(storedUnit);
+        }
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -69,19 +76,23 @@ const WeightProgressChart = () => {
         return () => clearInterval(interval);
     }, []);
 
+    const convertToLbs = (kg: number) => kg * 2.20462;
+    const formatWeight = (value: number) =>
+        unit === "lbs" ? `${convertToLbs(value).toFixed(1)} lbs` : `${value.toFixed(1)} kg`;
+    const formatWeightNoDecimal = (value: number) =>
+        unit === "lbs" ? `${Math.round(convertToLbs(value))} lbs` : `${Math.round(value)} kg`;
+
     const augWeight = cWeight + (goalWeight - cWeight) * 0.33;
     const sepWeight = cWeight + (goalWeight - cWeight) * 0.66;
 
     const now = new Date();
-    const labels = [];
-    for (let i = 0; i < 4; i++) {
-        const month = new Date(now.getFullYear(), now.getMonth() + i, 1).toLocaleString("default", {
-            month: "short",
-        });
-        labels.push(month);
-    }
+    const labels = Array.from({ length: 4 }).map((_, i) =>
+        new Date(now.getFullYear(), now.getMonth() + i, 1).toLocaleString("default", {
+            month: "short"
+        })
+    );
 
-    const data = {
+    const data: ChartData<"line"> = {
         labels,
         datasets: [
             {
@@ -91,93 +102,59 @@ const WeightProgressChart = () => {
                 pointHoverRadius: 12,
                 pointBackgroundColor: ["#ef5350", "#ffa726", "#ffee58", "#00c853"],
                 segment: {
-                    borderColor: (ctx: any) => {
+                    borderColor: (ctx: ScriptableLineSegmentContext) => {
                         const i = ctx.p0DataIndex;
                         return ["#ef5350", "#ffa726", "#ffee58"][i] || "#00c853";
                     },
-                    borderWidth: 6,
+                    borderWidth: 6
                 },
-                fill: false,
-            },
-        ],
+                fill: false
+            }
+        ]
     };
 
-    const options = {
+    const options: ChartOptions<"line"> = {
         responsive: true,
         maintainAspectRatio: false,
-        layout: {
-            padding: {
-                left: 30,
-                right: 30,
-                top: 30,
-                bottom: 20,
-            },
-        },
+        layout: { padding: { left: 30, right: 30, top: 30, bottom: 20 } },
         plugins: {
             legend: { display: false },
             tooltip: {
                 callbacks: {
-                    label: (ctx: any) => formatWeight(ctx.parsed.y),
-                },
+                    label: (ctx: TooltipItem<"line">) => formatWeight(ctx.parsed.y)
+                }
             },
             datalabels: {
-                anchor: (ctx: Context) =>
+                anchor: (ctx: Context) => ctx.dataIndex === 3 ? "start" : "end",
+                align: (ctx: Context) => ctx.dataIndex === 3 ? "bottom" : "top",
+                formatter: (value: number, ctx: Context) =>
                     ctx.dataIndex === 3
-                        ? ctx.dataset.data[3] < ctx.dataset.data[2]
-                            ? "end"
-                            : "start"
-                        : "end",
-                align: (ctx: Context) =>
-                    ctx.dataIndex === 3
-                        ? ctx.dataset.data[3] < ctx.dataset.data[2]
-                            ? "top"
-                            : "bottom"
-                        : "top",
-                formatter: (value: number, ctx: Context) => {
-                    const isGoal = ctx.dataIndex === 3;
-                    const formatted = isGoal
                         ? "Goal\n" + formatWeightNoDecimal(value)
-                        : formatWeightNoDecimal(value);
-                    return formatted;
-                },
-                font: {
-                    weight: "bold",
-                    size: 14,
-                },
+                        : formatWeightNoDecimal(value),
+                font: { weight: "bold", size: 14 },
                 color: (ctx: Context) => (ctx.dataIndex === 3 ? "#fff" : "#000"),
-                backgroundColor: (ctx: Context) =>
-                    ctx.dataIndex === 3 ? "#00c853" : null,
+                backgroundColor: (ctx: Context) => (ctx.dataIndex === 3 ? "#00c853" : null),
                 borderRadius: (ctx: Context) => (ctx.dataIndex === 3 ? 6 : 0),
-                padding: (ctx: Context) =>
-                    ctx.dataIndex === 3
-                        ? { top: 8, bottom: 8, left: 12, right: 12 }
-                        : undefined,
                 offset: (ctx: Context) => (ctx.dataIndex === 3 ? 14 : 0),
-                clip: false,
-            },
+                clip: false
+            }
         },
         scales: {
-            y: {
-                display: false,
-                grid: { display: false },
-            },
+            y: { display: false, grid: { display: false } },
             x: {
                 offset: true,
                 grid: { display: false },
                 ticks: {
                     color: "#000",
-                    font: {
-                        weight: "bold",
-                        size: 14,
-                    },
-                },
-            },
-        },
+                    font: { weight: "bold", size: 14 }
+                }
+            }
+        }
     };
 
     return (
         <div className="w-[40%] weightchart" style={{ margin: "2rem auto", textAlign: "center" }}>
-            <h2 className="text-[30px]" style={{ fontWeight: 700, marginBottom: "1rem" }}>
+            <h2 className="text-[30px] font-bold mb-4">
                 {name}, we predict you’ll be{" "}
                 <span style={{ color: "#00c853" }}>{formatWeightNoDecimal(goalWeight)}</span> by{" "}
                 <span style={{ color: "#00c853" }}>{labels[3]} 6th</span>
@@ -185,7 +162,8 @@ const WeightProgressChart = () => {
             <div style={{ height: "300px" }}>
                 <Line data={data} options={options} />
             </div>
-            <div style={{ marginTop: "4rem" }}>
+
+            <div className="mt-16">
                 <h3 className="text-[20px] font-bold">What people say</h3>
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -194,56 +172,31 @@ const WeightProgressChart = () => {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: -300, opacity: 0 }}
                         transition={{ duration: 0.5 }}
-                        style={{
-                            background: "#f9f9f9",
-                            borderRadius: "16px",
-                            padding: "1.5rem",
-                            margin: "1rem auto",
-                            maxWidth: "500px"
-                        }}
+                        className="bg-[#f9f9f9] rounded-2xl p-6 mt-4 max-w-xl mx-auto"
                     >
-                        <p style={{ fontWeight: 600 }}>
+                        <p className="font-semibold">
                             {testimonials[currentTestimonial].name},{" "}
-                            <span style={{ color: "#888" }}>
-                                {testimonials[currentTestimonial].country}
-                            </span>
+                            <span className="text-gray-500">{testimonials[currentTestimonial].country}</span>
                         </p>
-                        <p style={{ color: "#fbc02d", margin: "4px 0" }}>⭐⭐⭐⭐⭐</p>
-                        <p style={{ fontWeight: 500 }}>
-                            {testimonials[currentTestimonial].text}
-                        </p>
+                        <p className="text-yellow-500 my-1">⭐⭐⭐⭐⭐</p>
+                        <p className="font-medium">{testimonials[currentTestimonial].text}</p>
                     </motion.div>
                 </AnimatePresence>
-                <div style={{ display: "flex", justifyContent: "center", gap: 6 }}>
+                <div className="flex justify-center gap-2 mt-2">
                     {testimonials.map((_, i) => (
                         <div
                             key={i}
-                            style={{
-                                width: 8,
-                                height: 8,
-                                borderRadius: "50%",
-                                backgroundColor: i === currentTestimonial ? "#f8485e" : "#ccc",
-                                transition: "all 0.3s"
-                            }}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentTestimonial ? "bg-rose-500" : "bg-gray-300"}`}
                         />
                     ))}
                 </div>
-                <p style={{ color: "#999", fontSize: "14px", marginTop: "3rem" }}>
+                <p className="text-sm text-gray-400 mt-8">
                     The prediction above is based on the results of members like you and not a guarantee
                 </p>
                 <div className="sticky bottom-4 z-10 py-4">
                     <button
-                        onClick={handleSelect}
-                        style={{
-                            marginTop: "2rem",
-                            padding: "12px 32px",
-                            fontSize: "16px",
-                            borderRadius: "999px",
-                            border: "none",
-                            background: "#f8485e",
-                            color: "white",
-                            fontWeight: 600
-                        }}
+                        onClick={() => router.push("/halfwaythere")}
+                        className="mt-8 px-8 py-3 rounded-full bg-rose-500 text-white font-semibold hover:bg-rose-600 transition"
                     >
                         Continue
                     </button>

@@ -46,7 +46,7 @@ export default function ActivityLevel() {
         >
             <div className="min-h-screen flex flex-col items-center justify-center px-6 py-10 bg-white">
                 <h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">
-                    What's your typical week like?
+                    What&apos;s your typical week like?
                 </h1>
 
                 <div className="space-y-4 w-[40%] pt-8">

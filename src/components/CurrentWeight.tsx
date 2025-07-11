@@ -2,21 +2,23 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import WeightProgressChart from "./Chart";
+
 export default function CWeight() {
     const [unit, setUnit] = useState<'lbs' | 'kg'>('lbs');
     const [cWeight, setcWeight] = useState('');
     const router = useRouter();
 
     useEffect(() => {
-        const storedWeight = localStorage.getItem("cWeight");
-        if (storedWeight) {
-            try {
-                const { value, unit } = JSON.parse(storedWeight);
-                if (value) setcWeight(String(value));
-                if (unit === 'lbs' || unit === 'kg') setUnit(unit);
-            } catch {
-                // ignore corrupted data
+        if (typeof window !== "undefined") {
+            const storedWeight = localStorage.getItem("cWeight");
+            if (storedWeight) {
+                try {
+                    const { value, unit } = JSON.parse(storedWeight);
+                    if (value) setcWeight(String(value));
+                    if (unit === 'lbs' || unit === 'kg') setUnit(unit);
+                } catch {
+                    // ignore corrupted data
+                }
             }
         }
     }, []);
@@ -28,7 +30,9 @@ export default function CWeight() {
     const handleContinue = () => {
         const numericWeight = Number(cWeight);
         if (!isNaN(numericWeight) && numericWeight > 0) {
-            localStorage.setItem("cWeight", JSON.stringify({ value: numericWeight, unit }));
+            if (typeof window !== "undefined") {
+                localStorage.setItem("cWeight", JSON.stringify({ value: numericWeight, unit }));
+            }
         }
     };
 
@@ -84,7 +88,6 @@ export default function CWeight() {
                     Continue
                 </button>
             </div>
-
         </motion.div>
     );
 }

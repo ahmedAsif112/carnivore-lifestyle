@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+
 export default function Height() {
     const [unit, setUnit] = useState<'cm' | 'ft'>('cm');
     const [height, setHeight] = useState('');
@@ -10,20 +11,22 @@ export default function Height() {
     const router = useRouter();
 
     useEffect(() => {
-        const storedHeight = localStorage.getItem("height");
-        if (storedHeight) {
-            try {
-                const parsed = JSON.parse(storedHeight);
-                if (parsed.unit === 'cm') {
-                    setUnit('cm');
-                    setHeight(String(parsed.value));
-                } else if (parsed.unit === 'ft' && typeof parsed.value === 'object') {
-                    setUnit('ft');
-                    setFeet(String(parsed.value.feet ?? ''));
-                    setInches(String(parsed.value.inches ?? ''));
+        if (typeof window !== "undefined") {
+            const storedHeight = localStorage.getItem("height");
+            if (storedHeight) {
+                try {
+                    const parsed = JSON.parse(storedHeight);
+                    if (parsed.unit === 'cm') {
+                        setUnit('cm');
+                        setHeight(String(parsed.value));
+                    } else if (parsed.unit === 'ft' && typeof parsed.value === 'object') {
+                        setUnit('ft');
+                        setFeet(String(parsed.value.feet ?? ''));
+                        setInches(String(parsed.value.inches ?? ''));
+                    }
+                } catch {
+                    // skip invalid storage format
                 }
-            } catch {
-                // skip invalid storage format
             }
         }
     }, []);
@@ -33,16 +36,18 @@ export default function Height() {
     };
 
     const handleContinue = () => {
-        if (unit === 'cm') {
-            const numericHeight = Number(height);
-            if (!isNaN(numericHeight) && numericHeight > 0) {
-                localStorage.setItem("height", JSON.stringify({ value: numericHeight, unit }));
-            }
-        } else if (unit === 'ft') {
-            const f = Number(feet);
-            const i = Number(inches);
-            if (!isNaN(f) && !isNaN(i) && (f > 0 || i > 0)) {
-                localStorage.setItem("height", JSON.stringify({ value: { feet: f, inches: i }, unit }));
+        if (typeof window !== "undefined") {
+            if (unit === 'cm') {
+                const numericHeight = Number(height);
+                if (!isNaN(numericHeight) && numericHeight > 0) {
+                    localStorage.setItem("height", JSON.stringify({ value: numericHeight, unit }));
+                }
+            } else if (unit === 'ft') {
+                const f = Number(feet);
+                const i = Number(inches);
+                if (!isNaN(f) && !isNaN(i) && (f > 0 || i > 0)) {
+                    localStorage.setItem("height", JSON.stringify({ value: { feet: f, inches: i }, unit }));
+                }
             }
         }
     };
