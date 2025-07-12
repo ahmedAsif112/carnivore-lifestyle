@@ -11,13 +11,13 @@ export async function POST() {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: 'price_1RilblBTtdntfEmT8FfG35wc',
+          price: 'price_1RimbpBTtdntfEmT3bsvcnG2',
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
+      success_url: 'https://www.lifestylecarnivore.com/success',
+      cancel_url: 'https://www.lifestylecarnivore.com/cancel',
     });
 
     return NextResponse.json({ url: session.url }); // ✅ Corrected
