@@ -20,7 +20,7 @@ export default function SignupScreen() {
         }
 
         if (typeof window !== "undefined") {
-            localStorage.setItem("email", email);
+            localStorage.setItem("userEmail", email);
         }
 
         router.push("/almostdone");
