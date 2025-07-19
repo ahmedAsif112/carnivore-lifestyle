@@ -3,12 +3,13 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
 model EmailLog {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String
   timestamp DateTime @default(now())
-    status    String   @default("Delivered") // ✅ this line is required
+  status    String   @default("Delivered")
 }
