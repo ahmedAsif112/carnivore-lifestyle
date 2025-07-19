@@ -52,7 +52,7 @@ export default function Waterintake() {
                 <h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">
                     How many glasses of water do you drink per day?                </h1>
 
-                <div className="space-y-4 pt-8 w-[40%]">
+                <div className="space-y-4 pt-8 waterintake w-[40%]">
                     {options.map((option, index) => (
                         <button
                             key={index}

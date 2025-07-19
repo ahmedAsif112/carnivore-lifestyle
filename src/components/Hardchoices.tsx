@@ -35,7 +35,7 @@ export default function Hardchoice() {
             className="absolute w-full"
         >
             <div className=" min-h-screen flex flex-col items-center justify-center px-6 py-10 bg-white">
-                <div className="w-[40%]"><h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">
+                <div className="w-[40%] hardchoice"><h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">
                     Is it hard for you to make healthy choices during the weekend?
                 </h1>
 

@@ -49,7 +49,7 @@ export default function ActivityLevel() {
                     What&apos;s your typical week like?
                 </h1>
 
-                <div className="space-y-4 w-[40%] pt-8">
+                <div className="space-y-4 dailyactivity w-[40%] pt-8">
                     {options.map((option, index) => (
                         <button
                             key={index}

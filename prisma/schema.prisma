@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model EmailLog {
+  id        Int      @id @default(autoincrement())
+  email     String
+  timestamp DateTime @default(now())
+    status    String   @default("Delivered") // ✅ this line is required
+}

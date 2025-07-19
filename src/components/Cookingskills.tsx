@@ -40,7 +40,7 @@ export default function Cookingskills() {
                     How would you describe your cooking skills?
                 </h1>
 
-                <div className="pt-8 space-y-4 w-[40%]">
+                <div className="pt-8 space-y-4 cookingskills w-[40%]">
                     {options.map((option, index) => (
                         <button
                             key={index}

@@ -35,7 +35,7 @@ export default function Mealseachday() {
             className="absolute w-full"
         >
             <div className=" min-h-screen flex flex-col items-center justify-center px-6 py-10 bg-white">
-                <div className="w-[40%]"><h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">
+                <div className="w-[40%] mealseachday"><h1 className="text-2xl md:text-3xl font-semibold text-center mb-6">
                     Do you typically eat meals around the same time each day?                </h1>
 
                     <div className="pt-8 space-y-4 w-full">

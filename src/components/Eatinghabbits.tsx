@@ -41,7 +41,7 @@ export default function Eatinghabbits() {
                     How would you describe your eating habits?
                 </h1>
 
-                <div className="pt-8 space-y-4 w-[40%]">
+                <div className="pt-8 space-y-4 eatinghabbits w-[40%]">
                     {options.map((option, index) => (
                         <button
                             key={index}

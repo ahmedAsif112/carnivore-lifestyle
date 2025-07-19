@@ -40,7 +40,7 @@ export default function Familiar() {
                     How familiar are you with Carnivore Diet?
                 </h1>
 
-                <div className="space-y-4 w-[40%]">
+                <div className="space-y-4 w-[40%] familiar">
                     {options.map((option, index) => (
                         <button
                             key={index}

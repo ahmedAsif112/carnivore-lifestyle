@@ -44,7 +44,7 @@ export default function Gender() {
                     What’s your gender?
                 </h1>
 
-                <div className="space-y-4 w-[40%]">
+                <div className="space-y-4 gender w-[40%]">
                     {options.map((option, index) => (
                         <button
                             key={index}

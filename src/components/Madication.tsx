@@ -81,13 +81,13 @@ export default function Madication() {
 
                                     </>
                                 ) : (
-                                    <span className="flex items-center gap-2 text-base font-normal">
+                                    <span className="flex items-center gap-2  font-normal">
                                         {label}
                                     </span>
                                 )}
                             </div>
                             {isSelected(label) && <span className="text-xl">✔</span>}
-                            {!isSelected(label) && <span className="text-2xl">+</span>}
+                            {!isSelected(label) && <span className="text-xl">+</span>}
                         </button>
                     ))}
                 </div>

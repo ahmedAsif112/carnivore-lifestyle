@@ -77,7 +77,7 @@ export default function Profile() {
             className="absolute w-full"
         >
             <div className="min-h-screen flex flex-col items-center justify-center px-4 py-10 bg-white">
-                <div className="w-[40%] flex flex-col items-center justify-center">
+                <div className="w-[40%] profile flex flex-col items-center justify-center">
                     <h1 className="text-3xl font-bold mb-6">Your personal profile</h1>
 
                     <div className="w-full max-w-xl bg-gray-100 rounded-2xl p-6 mb-4">
@@ -105,7 +105,7 @@ export default function Profile() {
                         </div>
                     </div>
 
-                    <div className="w-full max-w-xl mt-11 bg-gray-100 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-visible">
+                    <div className="w-full max-w-xl mt-11 bg-gray-100 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-visible profile-text">
                         <div className="flex-1 space-y-3">
                             <div>
                                 <p className="text-sm text-gray-500">Name</p>

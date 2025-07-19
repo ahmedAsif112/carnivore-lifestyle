@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { prisma } from '../../../../lib/prisma';
 
 export async function POST(req: Request) {
     try {
@@ -18,14 +19,20 @@ export async function POST(req: Request) {
             },
         });
 
-        const result = await transporter.sendMail({
+        await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
             subject: 'Your Product PDF Link',
-            html: `<p>download krle ganddddduuuu: <a href="https://drive.google.com/drive/folders/1qZuHN_ZwpYtGDvVnu8--xKddsKK_Ojb_?usp=drive_link">Download PDF</a></p>`,
+            html: `<p>Your customized carnivore recipes: <a href="https://drive.google.com/drive/folders/1qZuHN_ZwpYtGDvVnu8--xKddsKK_Ojb_?usp=drive_link">Download PDF</a></p>`,
         });
 
-        console.log('📤 Email sent result:', result);
+        // Log in DB
+      await prisma.emailLog.create({
+  data: {
+    email,
+    status: 'Delivered', // ✅ include status here
+  },
+});
 
         return NextResponse.json({ success: true });
     } catch (error) {
