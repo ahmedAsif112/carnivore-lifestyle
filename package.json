@@ -22,7 +22,6 @@
     "@prisma/client": "^6.12.0",
     "antd": "^5.22.4",
     "axios": "^1.7.9",
-    "calendar-admin": "file:",
     "chart.js": "^4.5.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "date-fns": "^4.1.0",
