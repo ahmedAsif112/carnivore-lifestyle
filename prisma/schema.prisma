@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/client"
 }
 
 datasource db {
@@ -12,5 +11,7 @@ model EmailLog {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String
   timestamp DateTime @default(now())
-  status    String   @default("Delivered")
+  status    String?
+
+  @@map("EmailLog")
 }
