@@ -1,12 +1,14 @@
 'use client';
-
+import { Carousel } from 'antd';
 import { useEffect, useState } from 'react';
-
+import collage from "../assets/collage.png"
+import collagetwo from "../assets/collagetwo.png"
+import Image from 'next/image';
 const plans = [
     {
         id: '4w',
-        title: '4-week plan',
-        newPrice: '$24.99',
+        title: '4-week plan with 6+ free cookbooks',
+        newPrice: '$27.99',
     },
 ];
 
@@ -44,22 +46,33 @@ export default function PlanPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                planId: selectedPlan,
-            }),
+            body: JSON.stringify({ planId: selectedPlan }),
         });
 
-        const data = await res.json();
+        if (!res.ok) {
+            alert('Failed to create payment session');
+            return;
+        }
 
-        if (data.url) {
-            window.location.href = data.url; // ✅ Correct Stripe redirection
+        let data;
+        try {
+            data = await res.json();
+        } catch (err) {
+            alert('Invalid server response. Please try again.');
+            return;
+        }
+
+        if (data?.url) {
+            window.location.href = data.url;
         } else {
             alert('Payment session creation failed.');
         }
+
     };
 
     return (
         <div className="min-h-screen bg-white pb-24">
+
             <div className="sticky top-0 z-50 w-full bg-pink-100 text-black text-center py-2 text-sm font-medium">
                 Introductory offer expires in: <span className="font-bold">{formatTime()}</span>
             </div>
@@ -69,7 +82,7 @@ export default function PlanPage() {
                     <div className="bg-purple-800 px-4 py-1 rounded-full inline-block mb-4 text-sm">
                         {email || 'Loading email...'}
                     </div>
-                    <h2 className="text-xl font-semibold mb-4">Your personalized Weight Loss Plan is ready</h2>
+                    <h2 className="text-xl font-semibold mb-4">Your Personalized Plan is Ready</h2>
                     <ul className="text-sm text-left space-y-2">
                         <li>✔️ Perfect for {genderLabel} over 22</li>
                         <li>✔️ For Carnivore competent</li>
@@ -77,8 +90,18 @@ export default function PlanPage() {
                         <li>✔️ No dietary restrictions</li>
                     </ul>
                 </div>
+                <div className="w-full bg-white py-10">
+                    <Carousel autoplay autoplaySpeed={2000} dots={false} infinite>
+                        <div className="flex justify-center items-center">
+                            <Image src={collage} alt="collage 1" className="w-full max-w-screen-xl" />
+                        </div>
+                        <div className="flex justify-center items-center">
+                            <Image src={collagetwo} alt="collage 2" className="w-full max-w-screen-xl" />
+                        </div>
 
-                <h3 className="text-lg font-bold mb-4 text-center">Get visible results in 4 weeks!</h3>
+                    </Carousel>
+                </div>
+                <h3 className="text-lg font-bold mb-4 text-center">Get visible results in 4 weeks plan</h3>
                 <div className="space-y-4">
                     {plans.map((plan) => (
                         <label

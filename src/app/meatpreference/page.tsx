@@ -3,8 +3,12 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <MeatPreference />
+
+        <div className="main-container">
+            <div className="container">
+                <MeatPreference />
+
+            </div>
         </div>
     )
 }

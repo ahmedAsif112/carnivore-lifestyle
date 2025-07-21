@@ -3,8 +3,12 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <CWeight />
+
+        <div className="main-container">
+            <div className="container">
+                <CWeight />
+
+            </div>
         </div>
     )
 }

@@ -3,8 +3,12 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <SignupScreen />
+
+        <div className="main-container">
+            <div className="container">
+                <SignupScreen />
+
+            </div>
         </div>
     )
 }
