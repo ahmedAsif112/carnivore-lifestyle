@@ -3,8 +3,12 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <FaceChange />
+
+        <div className="main-container">
+            <div className="container">
+                <FaceChange />
+
+            </div>
         </div>
     )
 }

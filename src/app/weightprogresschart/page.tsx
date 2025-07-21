@@ -4,8 +4,12 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <WeightProgressChart />
+
+        <div className="main-container">
+            <div className="container">
+                <WeightProgressChart />
+
+            </div>
         </div>
     )
 }

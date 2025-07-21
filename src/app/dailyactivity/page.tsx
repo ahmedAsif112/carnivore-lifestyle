@@ -3,8 +3,12 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <ActivityLevel />
+
+        <div className="main-container">
+            <div className="container">
+                <ActivityLevel />
+
+            </div>
         </div>
     )
 }

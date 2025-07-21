@@ -39,8 +39,30 @@ export default function SuccessPage() {
                     <Spin size="large" tip="Sending your PDF..." />
                 </div>
             ) : emailSent ? (
-                <div className="text-green-600 text-2xl font-bold text-center">
-                    ✅ Payment successful! We’ve sent your PDF to your email.
+                <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 bg-white">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">THANK YOU!</h1>
+                    <div className="text-6xl text-green-500 mb-6">✓</div>
+
+                    <p className="text-lg text-gray-700 mb-4">
+                        Your <strong>30 Day Carnivore Diet Mealplan With 6 + Free Bonuses Cookbooks</strong> is on its way to your email.
+                    </p>
+
+                    <p className="text-lg text-gray-700 mb-2">
+                        But you can also download it directly from the link below:
+                    </p>
+
+                    <a
+                        href="https://drive.google.com/drive/folders/1qZuHN_ZwpYtGDvVnu8--xKddsKK_Ojb_?usp=drive_link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-teal-600 underline text-lg font-medium mb-6"
+                    >
+                        Click here to access your download instantly
+                    </a>
+
+                    <p className="text-gray-600 text-sm">
+                        We’ve also sent this link to your email for easy access later.
+                    </p>
                 </div>
             ) : (
                 <div className="text-red-600 text-2xl font-bold text-center">

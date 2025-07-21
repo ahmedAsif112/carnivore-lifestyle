@@ -3,8 +3,12 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div>
-            <PreparingProgram />
+
+        <div className="main-container">
+            <div className="container">
+                <PreparingProgram />
+
+            </div>
         </div>
     )
 }
