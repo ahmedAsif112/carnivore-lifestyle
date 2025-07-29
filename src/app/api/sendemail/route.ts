@@ -37,7 +37,8 @@ Here you can Download
       await prisma.emailLog.create({
   data: {
     email,
-    status: 'Delivered', // ✅ include status here
+    status: 'Delivered',
+    site:"Carnivore" // // ✅ include status here
   },
 });
 

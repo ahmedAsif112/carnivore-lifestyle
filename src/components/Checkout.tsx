@@ -26,7 +26,7 @@ export default function PlanPage() {
     }, []);
 
     useEffect(() => {
-        const storedEmail = localStorage.getItem('email');
+        const storedEmail = localStorage.getItem('userEmail');
         const storedGender = localStorage.getItem('gender');
         if (storedEmail) setEmail(storedEmail);
         if (storedGender === 'Male' || storedGender === 'Female') setGender(storedGender);
