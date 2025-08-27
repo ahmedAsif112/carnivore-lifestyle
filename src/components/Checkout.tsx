@@ -38,7 +38,7 @@ export default function PlanPage() {
         return `${mins}:${secs}`;
     };
 
-    const genderLabel = gender === 'Female' ? 'women' : 'men';
+    const genderLabel = gender === 'Female' ? 'women' : 'men / women';
 
     const handleCheckout = async () => {
         const res = await fetch('/api/checkout', {
