@@ -93,22 +93,7 @@ export default function CarnivoreSurveyForm() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-red-900 to-red-800 relative overflow-hidden">
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0">
-                {[...Array(15)].map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute opacity-10 text-xl sm:text-2xl animate-pulse"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 5}s`,
-                        }}
-                    >
-                        🥩
-                    </div>
-                ))}
-            </div>
+
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 relative z-10">
                 {/* Header */}
@@ -230,63 +215,79 @@ export default function CarnivoreSurveyForm() {
                                 <Form.Item
                                     label={<span className="text-gray-700 font-medium text-sm sm:text-base">Height</span>}
                                 >
-                                    <div className="flex gap-2">
+                                    <div className="space-y-2 sm:space-y-0">
                                         {heightUnit === 'cm' ? (
-                                            <Form.Item
-                                                name="height"
-                                                rules={[{ required: true, message: 'Please enter your height!' }]}
-                                                className="flex-1 mb-0"
-                                            >
-                                                <InputNumber
-                                                    placeholder="170"
-                                                    className="w-full rounded-xl"
-                                                    style={{ height: '48px' }}
-                                                    min={100}
-                                                    max={250}
-                                                />
-                                            </Form.Item>
+                                            <div className="flex gap-2">
+                                                <Form.Item
+                                                    name="height"
+                                                    rules={[{ required: true, message: 'Please enter your height!' }]}
+                                                    className="flex-1 mb-0"
+                                                >
+                                                    <InputNumber
+                                                        placeholder="170"
+                                                        className="w-full rounded-xl"
+                                                        style={{ height: '48px' }}
+                                                        min={100}
+                                                        max={250}
+                                                    />
+                                                </Form.Item>
+                                                <Form.Item name="height_unit" className="mb-0" initialValue="cm">
+                                                    <Select
+                                                        style={{ width: 80, height: '48px' }}
+                                                        onChange={handleHeightUnitChange}
+                                                        className="rounded-xl"
+                                                    >
+                                                        <Option value="cm">cm</Option>
+                                                        <Option value="ft">ft/in</Option>
+                                                    </Select>
+                                                </Form.Item>
+                                            </div>
                                         ) : (
                                             <>
-                                                <Form.Item
-                                                    name="height_feet"
-                                                    rules={[{ required: true, message: 'Please enter feet!' }]}
-                                                    className="flex-1 mb-0"
-                                                >
-                                                    <InputNumber
-                                                        placeholder="5"
-                                                        className="w-full rounded-xl"
-                                                        style={{ height: '48px' }}
-                                                        min={3}
-                                                        max={8}
-                                                        addonAfter="ft"
-                                                    />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    name="height_inches"
-                                                    rules={[{ required: true, message: 'Please enter inches!' }]}
-                                                    className="flex-1 mb-0"
-                                                >
-                                                    <InputNumber
-                                                        placeholder="8"
-                                                        className="w-full rounded-xl"
-                                                        style={{ height: '48px' }}
-                                                        min={0}
-                                                        max={11}
-                                                        addonAfter="in"
-                                                    />
-                                                </Form.Item>
+                                                <div className="flex gap-2 sm:gap-2">
+                                                    <Form.Item
+                                                        name="height_feet"
+                                                        rules={[{ required: true, message: 'Please enter feet!' }]}
+                                                        className="flex-1 mb-0"
+                                                    >
+                                                        <InputNumber
+                                                            placeholder="5"
+                                                            className="w-full rounded-xl"
+                                                            style={{ height: '48px' }}
+                                                            min={3}
+                                                            max={8}
+                                                            addonAfter="ft"
+                                                        />
+                                                    </Form.Item>
+                                                    <Form.Item
+                                                        name="height_inches"
+                                                        rules={[{ required: true, message: 'Please enter inches!' }]}
+                                                        className="flex-1 mb-0"
+                                                    >
+                                                        <InputNumber
+                                                            placeholder="8"
+                                                            className="w-full rounded-xl"
+                                                            style={{ height: '48px' }}
+                                                            min={0}
+                                                            max={11}
+                                                            addonAfter="in"
+                                                        />
+                                                    </Form.Item>
+                                                </div>
+                                                <div className="flex justify-end">
+                                                    <Form.Item name="height_unit" className="mb-0" initialValue="cm">
+                                                        <Select
+                                                            style={{ width: 80, height: '48px' }}
+                                                            onChange={handleHeightUnitChange}
+                                                            className="rounded-xl"
+                                                        >
+                                                            <Option value="cm">cm</Option>
+                                                            <Option value="ft">ft/in</Option>
+                                                        </Select>
+                                                    </Form.Item>
+                                                </div>
                                             </>
                                         )}
-                                        <Form.Item name="height_unit" className="mb-0" initialValue="cm">
-                                            <Select
-                                                style={{ width: 80, height: '48px' }}
-                                                onChange={handleHeightUnitChange}
-                                                className="rounded-xl"
-                                            >
-                                                <Option value="cm">cm</Option>
-                                                <Option value="ft">ft/in</Option>
-                                            </Select>
-                                        </Form.Item>
                                     </div>
                                 </Form.Item>
 
@@ -379,6 +380,12 @@ export default function CarnivoreSurveyForm() {
                     
                     .ant-select-selection-item {
                         font-size: 14px !important;
+                    }
+                    
+                    /* Ensure mobile height inputs have proper spacing */
+                    .ant-input-number-addon {
+                        font-size: 11px !important;
+                        min-width: 24px !important;
                     }
                 }
             `}</style>

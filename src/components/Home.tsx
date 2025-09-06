@@ -287,7 +287,7 @@ const CarnivoreFunnelPage = () => {
                                         </p>
 
                                         <h1 className="text-yellow-300 text-3xl lg:text-4xl font-bold animate-pulse">
-                                            8 FREE CARNIVORE BOOKS
+                                            6+ FREE CARNIVORE BOOKS
                                         </h1>
 
                                         {/* 🎀 Green Ribbon Behind Text */}
