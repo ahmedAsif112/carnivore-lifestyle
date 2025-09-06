@@ -1,10 +1,10 @@
-import BrutalCarnivoreLanding from '@/components/Home'
+import CarnivoreMealPlanFunnel from '@/components/Home'
 import React from 'react'
 
 const page = () => {
     return (
         <div>
-            <BrutalCarnivoreLanding />
+            <CarnivoreMealPlanFunnel />
         </div>
     )
 }
