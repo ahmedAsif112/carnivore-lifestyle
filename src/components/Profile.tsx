@@ -20,14 +20,12 @@ export default function Profile() {
 
     useEffect(() => {
         const storedName = localStorage.getItem("name") || "";
-        const storedGender = localStorage.getItem("gender")?.toLowerCase() || "female";
-        const cWeightStr = localStorage.getItem("cWeight");
+        const storedGender = (localStorage.getItem("gender") || "female").trim().toLowerCase(); const cWeightStr = localStorage.getItem("cWeight");
         const goalWeightStr = localStorage.getItem("goalWeight");
         const heightValue = localStorage.getItem("height");
 
         setName(storedName);
-        setImageUrl(storedGender === "male" ? male.src : female.src); // only use gender here
-
+        setImageUrl(storedGender === "male" ? male.src : female.src);
         if (cWeightStr && goalWeightStr && heightValue) {
             const parsedWeight = JSON.parse(cWeightStr);
             const parsedGoal = JSON.parse(goalWeightStr);
