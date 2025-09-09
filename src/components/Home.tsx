@@ -1,6 +1,7 @@
 "use client";
+import image from "@/assets/protein.webp"
 import React, { useState, useEffect } from 'react';
-import { Flame, Crown, Shield, Target, CheckCircle, Star, Users, TrendingUp, Award, ChevronRight, User, Mail, Gift } from 'lucide-react';
+import { Flame, Crown, Shield, Target, CheckCircle, Star, Users, TrendingUp, Award, ChevronRight, User, Mail, Gift, Heart, MapPin, Phone } from 'lucide-react';
 import collage from "@/assets/collagehero.png"
 import cow from "@/assets/cow.jpg"
 import Image from 'next/image';
@@ -28,6 +29,7 @@ const CarnivoreFunnelPage = () => {
         const interval = setInterval(() => {
             setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
         }, 4000);
+
 
         // Animate cards
         const delays = [500, 700, 900, 1100];
@@ -390,7 +392,7 @@ const CarnivoreFunnelPage = () => {
 
                                     <div className="mt-4 text-center">
                                         <p className="text-gray-500 text-sm font-light">
-                                            🔒 100% secure • No spam • Unsubscribe anytime
+                                            🔒 100% secure • No spam
                                         </p>
                                     </div>
                                 </div>
@@ -550,6 +552,156 @@ const CarnivoreFunnelPage = () => {
                         </div>
                     </div>
                 </section>
+                {/* What is Carnivore Section */}
+                <section className="px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-br from-black via-red-950 to-red-900">
+                    <div className={`max-w-7xl mx-auto transition-all duration-1000 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        <div className="bg-white/95 backdrop-blur-sm border-0 shadow-xl overflow-hidden rounded-2xl">
+                            <div className="grid lg:grid-cols-2 gap-8 p-8">
+                                {/* Content */}
+                                <div className="space-y-6">
+                                    <h2 className="text-gray-800 text-3xl font-bold mb-4">
+                                        What is the Carnivore Diet? 🥩
+                                    </h2>
+
+                                    <p className="text-gray-600 text-base leading-relaxed font-light">
+                                        The carnivore diet is a revolutionary approach to nutrition that focuses exclusively on
+                                        animal-based foods. By eliminating plant foods and focusing on nutrient-dense meats,
+                                        many people experience incredible transformations in their health, energy, and body composition.
+                                    </p>
+
+                                    {/* What You Eat Section */}
+                                    <div className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-xl border border-green-200">
+                                        <h4 className="text-green-700 mb-3 text-lg font-semibold">
+                                            What You Can Eat 📝
+                                        </h4>
+                                        <div className="grid sm:grid-cols-2 gap-3 text-sm">
+                                            <div className="space-y-2">
+                                                <p className="text-gray-700 font-medium">• Red Meat (Beef, Lamb, Bison)</p>
+                                                <p className="text-gray-700 font-medium">• Poultry (Chicken, Duck, Turkey)</p>
+                                                <p className="text-gray-700 font-medium">• Fish & Seafood</p>
+                                                <p className="text-gray-700 font-medium">• Organ Meats</p>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <p className="text-gray-700 font-medium">• Eggs (from any animal)</p>
+                                                <p className="text-gray-700 font-medium">• Animal Fats (Tallow, Lard)</p>
+                                                <p className="text-gray-700 font-medium">• Bone Broth</p>
+                                                <p className="text-gray-700 font-medium">• Salt & Water</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Benefits Grid */}
+                                    <div className="grid sm:grid-cols-2 gap-4">
+                                        {[
+                                            { title: "Rapid Fat Loss", desc: "Burn fat efficiently with zero-carb ketogenic approach", icon: "🔥" },
+                                            { title: "Mental Clarity", desc: "Experience enhanced focus and brain function", icon: "🧠" },
+                                            { title: "Reduced Inflammation", desc: "Eliminate inflammatory plant compounds and lectins", icon: "✨" },
+                                            { title: "Simplified Eating", desc: "No counting, measuring, or complicated meal prep", icon: "⚡" },
+                                            { title: "Better Digestion", desc: "Heal gut issues and improve digestive health", icon: "🦋" },
+                                            { title: "Stable Energy", desc: "No blood sugar spikes or energy crashes", icon: "⚡" }
+                                        ].map((benefit, index) => (
+                                            <div
+                                                key={benefit.title}
+                                                className={`bg-gradient-to-br from-orange-50 to-red-50 p-4 rounded-xl border border-orange-100 hover:shadow-md transition-all duration-300 hover:scale-105 `}
+                                            >
+                                                <div className="flex items-start space-x-3">
+                                                    <span className="text-xl">{benefit.icon}</span>
+                                                    <div>
+                                                        <h5 className="text-gray-800 mb-1 text-base font-medium">
+                                                            {benefit.title}
+                                                        </h5>
+                                                        <p className="text-gray-600 text-sm font-light">
+                                                            {benefit.desc}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* How It Works */}
+                                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border-l-4 border-blue-500">
+                                        <h4 className="text-blue-700 mb-3 text-lg font-semibold">
+                                            How Does It Work? 🔬
+                                        </h4>
+                                        <p className="text-gray-600 font-light mb-3">
+                                            By removing all plant foods, you eliminate potential irritants, toxins, and anti-nutrients
+                                            that can cause inflammation and digestive issues. Your body enters a state of nutritional
+                                            ketosis, burning fat for fuel while providing complete amino acid profiles from high-quality animal proteins.
+                                        </p>
+                                        <div className="space-y-2 text-sm text-gray-700">
+                                            <p>• <strong>Week 1-2:</strong> Adaptation phase, electrolyte balance</p>
+                                            <p>• <strong>Week 3-4:</strong> Energy stabilizes, cravings diminish</p>
+                                            <p>• <strong>Month 2+:</strong> Full benefits emerge, body composition changes</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Perfect for Beginners */}
+                                    <div className="bg-gradient-to-r from-red-50 to-orange-50 p-6 rounded-xl border-l-4 border-orange-500">
+                                        <h4 className="text-orange-700 mb-2 text-lg font-semibold">
+                                            Perfect for Beginners! 🌟
+                                        </h4>
+                                        <p className="text-gray-600 font-light mb-3">
+                                            Our comprehensive guides and meal plans make it easy to start your carnivore journey,
+                                            even if you’re completely new to this way of eating.
+                                        </p>
+                                        <div className="text-sm text-gray-700 space-y-1">
+                                            <p>✅ Step-by-step meal plans</p>
+                                            <p>✅ Shopping lists and prep guides</p>
+                                            <p>✅ Expert support and community</p>
+                                            <p>✅ Transition strategies from any diet</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Image/Visual */}
+                                <div className="relative">
+                                    <div className="bg-gradient-to-br from-red-100 to-orange-100 rounded-2xl p-6 h-full">
+                                        {/* Main Image - Fixed to show full image */}
+                                        <div className="relative mb-6">
+                                            <Image
+                                                src={image}
+                                                alt="Animal-based nutrition foods"
+                                                className={`w-full h-auto object-contain rounded-lg shadow-lg transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                                                style={{ aspectRatio: '3/2', maxHeight: '500px' }}
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg" />
+                                        </div>
+
+                                        {/* Key Stats */}
+                                        <div className="space-y-4">
+                                            <h4 className="text-gray-800 text-xl font-bold text-center mb-4">
+                                                Why Carnivore Works
+                                            </h4>
+
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="bg-white/80 p-4 rounded-xl text-center border border-orange-200 hover:scale-105 transition-transform">
+                                                    <div className="text-2xl font-bold text-red-600">0g</div>
+                                                    <div className="text-sm text-gray-600">Carbohydrates</div>
+                                                </div>
+                                                <div className="bg-white/80 p-4 rounded-xl text-center border border-orange-200 hover:scale-105 transition-transform">
+                                                    <div className="text-2xl font-bold text-blue-600">100%</div>
+                                                    <div className="text-sm text-gray-600">Bioavailable</div>
+                                                </div>
+                                                <div className="bg-white/80 p-4 rounded-xl text-center border border-orange-200 hover:scale-105 transition-transform">
+                                                    <div className="text-2xl font-bold text-green-600">20+</div>
+                                                    <div className="text-sm text-gray-600">Amino Acids</div>
+                                                </div>
+                                                <div className="bg-white/80 p-4 rounded-xl text-center border border-orange-200 hover:scale-105 transition-transform">
+                                                    <div className="text-2xl font-bold text-purple-600">Zero</div>
+                                                    <div className="text-sm text-gray-600">Plant Toxins</div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Testimonial Carousel */}
                 <section className="px-4 sm:px-6 lg:px-8 py-20">
                     <div className="max-w-4xl mx-auto">
@@ -674,7 +826,7 @@ const CarnivoreFunnelPage = () => {
 
                                     <div className="mt-4 text-center">
                                         <p className="text-gray-500 text-sm font-light">
-                                            🔒 100% secure • No spam • Unsubscribe anytime
+                                            🔒 100% secure • No spam
                                         </p>
                                     </div>
                                 </div>
@@ -700,6 +852,105 @@ const CarnivoreFunnelPage = () => {
                         </div>
                     </div>
                 </section>
+
+                {/* Footer */}
+                <footer className="bg-gradient-to-br from-black via-red-950 to-red-900 px-4 sm:px-6 lg:px-8 py-16 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-black/30" />
+                    <div className="absolute top-20 left-10 w-40 h-40 bg-red-500/5 rounded-full blur-2xl" />
+                    <div className="absolute bottom-10 right-10 w-32 h-32 bg-orange-500/5 rounded-full blur-xl" />
+
+                    <div className="max-w-7xl mx-auto relative z-10">
+                        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+                            {/* Brand Section */}
+                            <div className="lg:col-span-2 space-y-6">
+                                <div className="flex items-center space-x-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-800 rounded-2xl flex items-center justify-center shadow-xl border border-red-500/30">
+                                        <Flame className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div>
+                                        <h1 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
+                                            CARNIVORE
+                                        </h1>
+                                        <p className="text-xs text-gray-400 -mt-1">Elite Protocol</p>
+                                    </div>
+                                </div>
+
+                                <p className="text-gray-300 leading-relaxed max-w-md">
+                                    Transform your health, energy, and physique through the power of carnivore nutrition.
+                                    Join thousands who have already discovered the ancient way of eating that unlocks your body’s true potential.
+                                </p>
+
+                                <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-2 text-sm text-gray-400">
+                                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                        <span>10,000+ Success Stories</span>
+                                    </div>
+                                    <div className="flex items-center space-x-2 text-sm text-gray-400">
+                                        <Heart className="w-4 h-4 text-red-400" />
+                                        <span>97% Satisfaction Rate</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Quick Links */}
+                            <div>
+                                <h3 className="text-white font-semibold mb-4 flex items-center">
+                                    <Target className="w-4 h-4 mr-2 text-red-400" />
+                                    Quick Links
+                                </h3>
+                                <ul className="space-y-3">
+                                    <li><a href="#science" className="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm">Science & Research</a></li>
+                                    <li><a href="#testimonials" className="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm">Success Stories</a></li>
+                                    <li><a href="#what-is-carnivore" className="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm">What is Carnivore?</a></li>
+                                    <li><a href="#benefits" className="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm">Benefits</a></li>
+                                    <li><a href="#start" className="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm">Start Your Journey</a></li>
+                                </ul>
+                            </div>
+
+                            {/* Support */}
+                            <div>
+                                <h3 className="text-white font-semibold mb-4 flex items-center">
+                                    <Shield className="w-4 h-4 mr-2 text-red-400" />
+                                    Support
+                                </h3>
+                                <ul className="space-y-3">
+                                    <li><a href="#community" className="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm">Community</a></li>
+                                    <li className="flex items-center space-x-2 text-sm text-gray-400">
+                                        <Phone className="w-3 h-3" />
+                                        <span>24/7 Expert Support</span>
+                                    </li>
+                                    <li className="flex items-center space-x-2 text-sm text-gray-400">
+                                        <Mail className="w-3 h-3" />
+                                        <span>carnivoredietssolutions.com</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* Bottom Section */}
+                        <div className="mt-12 pt-8 border-t border-red-800/30">
+                            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                                <div className="flex items-center space-x-6 text-sm text-gray-400">
+                                    <span>© 2025 Carnivore Elite Protocol. All rights reserved.</span>
+                                </div>
+
+                                <div className="flex items-center space-x-6 text-sm">
+                                    <a onClick={() => router.push("/privacy")} className="cursor-pointer text-gray-400 hover:text-red-400 transition-colors duration-300">Privacy Policy</a>
+                                    <a onClick={() => router.push("/termsandconditions")} className="cursor-pointer text-gray-400 hover:text-red-400 transition-colors duration-300">Terms of Service</a>
+                                </div>
+                            </div>
+
+                            {/* Medical Disclaimer */}
+                            <div className="mt-6 bg-gradient-to-r from-red-900/20 to-black/30 p-4 rounded-xl border border-red-800/20">
+                                <p className="text-xs text-gray-500 leading-relaxed">
+                                    <strong className="text-gray-400">Medical Disclaimer:</strong> The information provided on this website is for educational purposes only and is not intended as medical advice.
+                                    Always consult with a qualified healthcare provider before making any changes to your diet or lifestyle, especially if you have existing health conditions.
+                                    Individual results may vary and are not guaranteed.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
 
             <style jsx>{`
