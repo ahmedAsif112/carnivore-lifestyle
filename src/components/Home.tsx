@@ -921,7 +921,7 @@ const CarnivoreFunnelPage = () => {
                                     </li>
                                     <li className="flex items-center space-x-2 text-sm text-gray-400">
                                         <Mail className="w-3 h-3" />
-                                        <span>carnivoredietssolutions.com</span>
+                                        <span>carnivoredietssolutions@gmail.com</span>
                                     </li>
                                 </ul>
                             </div>
@@ -940,14 +940,7 @@ const CarnivoreFunnelPage = () => {
                                 </div>
                             </div>
 
-                            {/* Medical Disclaimer */}
-                            <div className="mt-6 bg-gradient-to-r from-red-900/20 to-black/30 p-4 rounded-xl border border-red-800/20">
-                                <p className="text-xs text-gray-500 leading-relaxed">
-                                    <strong className="text-gray-400">Medical Disclaimer:</strong> The information provided on this website is for educational purposes only and is not intended as medical advice.
-                                    Always consult with a qualified healthcare provider before making any changes to your diet or lifestyle, especially if you have existing health conditions.
-                                    Individual results may vary and are not guaranteed.
-                                </p>
-                            </div>
+
                         </div>
                     </div>
                 </footer>
