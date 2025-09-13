@@ -57,7 +57,7 @@ const WeightProgressChart = () => {
     const [unit, setUnit] = useState<"kg" | "lbs">("kg");
     const [cWeight, setCWeight] = useState<number>(92);
     const [goalWeight, setGoalWeight] = useState<number>(82);
-    const [name, setName] = useState("Ahmed");
+    const [name, setName] = useState("Undifined");
     const [currentTestimonial, setCurrentTestimonial] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
     const chartRef = useRef<HTMLDivElement>(null);
