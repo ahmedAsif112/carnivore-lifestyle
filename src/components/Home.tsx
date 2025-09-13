@@ -205,7 +205,7 @@ const CarnivoreFunnelPage = () => {
                 {/* Hero Section */}
                 <section className="px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20">
                     <div className="max-w-7xl mx-auto">
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="grid lg:grid-cols-2 gap-7 items-center">
                             {/* Content */}
                             <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                                 <div className="mb-6">
