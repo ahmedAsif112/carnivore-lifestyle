@@ -7,8 +7,13 @@ export default function ReferralTracker() {
         const ref = urlParams.get("ref");
 
         if (ref) {
+            // save in localStorage
             localStorage.setItem("referrer", ref);
             console.log("✅ Referrer captured:", ref);
+
+            // clean URL without reloading
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
         }
     }, []);
 
