@@ -8,7 +8,7 @@ export default function SuccessPage() {
     const [loading, setLoading] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const hasSent = useRef(false);
-
+    const referrer = localStorage.getItem("referrer");
     useEffect(() => {
         setIsVisible(true);
 
@@ -21,7 +21,7 @@ export default function SuccessPage() {
         fetch('/api/sendemail', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ email, referrer }),
         })
             .then((res) => res.json())
             .then((data) => {

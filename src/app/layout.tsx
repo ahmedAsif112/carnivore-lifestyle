@@ -3,6 +3,7 @@ import './globals.css';
 import { ConfigProvider } from 'antd';
 import { AnimatePresence } from "framer-motion";
 import Analytics from '@/components/Analytics'; // 👈 Add this line
+import ReferralTracker from '@/components/ReferralTracker';
 
 export default function RootLayout({
   children,
@@ -12,7 +13,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <Analytics /> {/* 👈 Inject the tracking script */}
+        <Analytics />
+        <ReferralTracker /> {/* 👈 Inject the tracking script */}
         <ConfigProvider
           theme={{
             token: {

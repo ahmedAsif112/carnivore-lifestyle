@@ -4,7 +4,7 @@ import { prisma } from '../../../../lib/prisma';
 
 export async function POST(req: Request) {
     try {
-        const { email, name } = await req.json();
+        const { email, name, referrer  } = await req.json();
         console.log('📥 Incoming email:', email, name);
 
         if (!email) {
@@ -38,7 +38,8 @@ Here you can Download
   data: {
     email,
     status: 'Delivered',
-    site:"Carnivore" // // ✅ include status here
+    site:"Carnivore",
+    referrer, // // ✅ include status here
   },
 });
 
