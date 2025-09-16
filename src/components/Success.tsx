@@ -7,32 +7,39 @@ export default function SuccessPage() {
     const [emailSent, setEmailSent] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
+    const [referrer, setReferrer] = useState<string | null>(null);
     const hasSent = useRef(false);
-    const referrer = localStorage.getItem("referrer");
+
     useEffect(() => {
         setIsVisible(true);
 
-        const email = localStorage.getItem('userEmail');
+        // ✅ Only run in the browser
+        if (typeof window !== 'undefined') {
+            const savedRef = localStorage.getItem('referrer');
+            setReferrer(savedRef);
 
-        if (!email || hasSent.current) return;
+            const email = localStorage.getItem('userEmail');
 
-        hasSent.current = true;
+            if (!email || hasSent.current) return;
 
-        fetch('/api/sendemail', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, referrer }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log('✅ Email sent:', data);
-                setEmailSent(true);
-                setLoading(false);
+            hasSent.current = true;
+
+            fetch('/api/sendemail', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, referrer: savedRef }),
             })
-            .catch((err) => {
-                console.error('❌ Email send failed:', err);
-                setLoading(false);
-            });
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('✅ Email sent:', data);
+                    setEmailSent(true);
+                    setLoading(false);
+                })
+                .catch((err) => {
+                    console.error('❌ Email send failed:', err);
+                    setLoading(false);
+                });
+        }
     }, []);
 
     return (
