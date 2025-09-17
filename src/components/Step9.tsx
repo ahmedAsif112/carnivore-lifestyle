@@ -221,16 +221,19 @@ export default function PlanPage() {
                     className="w-full bg-gradient-to-r mt-5 from-red-600 via-red-500 to-orange-500 hover:from-red-700 hover:via-red-600 hover:to-orange-600 text-white font-bold py-3 sm:py-4 rounded-xl sm:rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl animate-pulse"
                 >
                     <div className="flex items-center justify-center space-x-2">
-                        <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
-                        <span className="text-base sm:text-lg">Get my elite carnivore plan</span>
-                        <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span className="text-base sm:text-lg">Get my elite carnivore plan<div>(Pay with card)</div></span>
                     </div>
                 </button>
                 <button
                     onClick={handlePaypalCheckout}
-                    className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-full transition"
+                    className="mt-4 w-full flex items-center justify-center gap-2 bg-[#FFC439] hover:bg-[#F7B500] text-black font-semibold py-3 rounded-lg transition"
                 >
-                    Pay with PayPal
+                    <img
+                        src="https://www.paypalobjects.com/webstatic/icon/pp258.png"
+                        alt="PayPal"
+                        className="h-5"
+                    />
+                    <span>Pay with PayPal</span>
                 </button>
                 {/* Trust Indicators */}
                 <div className="mt-4 sm:mt-6 text-center">
