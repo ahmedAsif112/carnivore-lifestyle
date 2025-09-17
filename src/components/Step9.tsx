@@ -1,7 +1,7 @@
 'use client';
 import { Carousel } from 'antd';
 import { useEffect, useState } from 'react';
-import { Flame, Crown, Timer, CheckCircle, Star, Target } from 'lucide-react';
+import { Flame, Crown, Timer, CheckCircle, Star, Target, Gift } from 'lucide-react';
 import collage from "../assets/collage.png"
 import collagetwo from "../assets/collagetwo.png"
 import Image from 'next/image';
@@ -19,7 +19,21 @@ export default function PlanPage() {
     const [timeLeft, setTimeLeft] = useState(10 * 60);
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState<'Male' | 'Female' | ''>('');
+    const handlePaypalCheckout = async () => {
+        const res = await fetch("/api/paypal", { method: "POST" });
 
+        if (!res.ok) {
+            alert("Failed to create PayPal order");
+            return;
+        }
+
+        const data = await res.json();
+        if (data?.url) {
+            window.location.href = data.url; // Redirect to PayPal checkout
+        } else {
+            alert("PayPal order creation failed");
+        }
+    };
     useEffect(() => {
         const interval = setInterval(() => {
             setTimeLeft((prev) => Math.max(prev - 1, 0));
@@ -152,70 +166,59 @@ export default function PlanPage() {
                 </div>
 
                 {/* Plan Selection */}
-                <div className="text-center mb-4 sm:mb-6">
-                    <div className="flex items-center justify-center space-x-2 mb-2 flex-wrap">
-                        <Target className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
-                        <h3 className="text-base sm:text-lg font-bold text-white text-center">Get visible results in 4 weeks plan</h3>
-                        <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400 animate-pulse" />
+                <div className="text-center mb-6 sm:mb-10">
+                    <div className="flex items-center justify-center space-x-2 mb-3 flex-wrap">
+                        <Flame className="w-6 h-6 sm:w-7 sm:h-7 text-orange-400 animate-bounce" />
+                        <h2 className="text-xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-yellow-400 drop-shadow-lg animate-pulse">
+                            Special Checkout Offer
+                        </h2>
+                        <Flame className="w-6 h-6 sm:w-7 sm:h-7 text-orange-400 animate-bounce" />
                     </div>
-                    <p className="text-gray-400 text-xs sm:text-sm">Transform your body with our elite protocol</p>
+                    <p className="text-gray-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                        Get your <span className="font-semibold text-white">4-Week Customized Carnivore Meal Plan {" "}</span>
+                        for just <span className="font-extrabold text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-300 animate-pulse">$24.99</span>
+                        (<span className="line-through text-gray-400">$197</span>) — an insane
+                        <span className="text-green-400 font-bold animate-pulse"> 85.8% OFF!</span>
+                    </p>
                 </div>
 
-                <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
-                    {plans.map((plan) => (
-                        <label
-                            key={plan.id}
-                            className={`flex justify-between items-start sm:items-center border rounded-xl sm:rounded-2xl p-4 sm:p-6 cursor-pointer transition-all duration-300 ${selectedPlan === plan.id
-                                ? 'border-red-500 bg-gradient-to-r from-red-900/30 to-orange-900/20 shadow-xl backdrop-blur-sm transform scale-105'
-                                : 'border-red-800/30 bg-gradient-to-r from-red-900/20 to-black/40 hover:border-red-600/50 backdrop-blur-sm'
-                                }`}
-                        >
-                            <div className="flex items-start gap-3 sm:gap-4 flex-1">
-                                <div className="relative mt-1">
-                                    <input
-                                        type="radio"
-                                        name="plan"
-                                        checked={selectedPlan === plan.id}
-                                        onChange={() => setSelectedPlan(plan.id)}
-                                        className="w-4 h-4 sm:w-5 sm:h-5 accent-red-500 cursor-pointer"
-                                    />
-                                    {selectedPlan === plan.id && (
-                                        <div className="absolute -top-1 -left-1 w-6 h-6 sm:w-7 sm:h-7 border-2 border-red-400 rounded-full animate-pulse" />
-                                    )}
-                                </div>
-                                <div className="flex-1">
-                                    <div className="font-bold text-white text-base sm:text-lg mb-2">{plan.title}</div>
-                                    <div className="space-y-2">
-                                        <div className="flex items-center space-x-2 flex-wrap">
-                                            <span className="text-base sm:text-lg text-gray-400 line-through">$197</span>
-                                            <div className="bg-red-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
-                                                85.8% OFF
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center space-x-2 flex-wrap">
-                                            <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-                                                {plan.newPrice}
-                                            </span>
-                                            <div className="bg-green-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
-                                                BEST VALUE
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <div className="relative border border-red-800/60 rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-red-900/50 via-black/60 to-orange-900/40 shadow-2xl backdrop-blur-md space-y-6 overflow-hidden">
+                    {/* glowing border animation */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-600/20 via-orange-500/20 to-yellow-500/20 blur-2xl animate-pulse"></div>
+
+                    <ul className="space-y-4 relative z-10">
+                        <li className="flex items-start space-x-3">
+                            <div className="relative">
+                                <CheckCircle className="w-6 h-6 text-green-400 animate-ping absolute opacity-75" />
+                                <CheckCircle className="w-6 h-6 text-green-400 relative" />
                             </div>
-                            {selectedPlan === plan.id && (
-                                <div className="text-red-400 ml-2 sm:ml-0">
-                                    <Star className="w-5 h-5 sm:w-6 sm:h-6 fill-current animate-pulse" />
-                                </div>
-                            )}
-                        </label>
-                    ))}
+                            <span className="text-gray-200 text-sm sm:text-base leading-snug">
+                                <span className="font-bold text-white">Only $24.99</span> for your 4-week customized meal plan
+                            </span>
+                        </li>
+
+                        <li className="flex items-start space-x-3">
+                            <div className="relative">
+                                <Gift className="w-6 h-6 text-yellow-400 animate-spin-slow" />
+                            </div>
+                            <span className="text-gray-200 text-sm sm:text-base leading-snug">
+                                After purchase, you’ll unlock <span className="font-bold text-white animate-pulse">6+ Premium Carnivore eBooks</span> — <span className="text-yellow-300 font-extrabold">FREE Bonus!</span>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div className="text-center mt-4 relative z-10">
+                        <p className="text-sm sm:text-base font-medium text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-orange-300 to-yellow-200 animate-pulse">
+                            🚀 Don’t miss out — start your carnivore journey the right way!
+                        </p>
+                    </div>
                 </div>
+
 
                 {/* Checkout Button */}
                 <button
                     onClick={handleCheckout}
-                    className="w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 hover:from-red-700 hover:via-red-600 hover:to-orange-600 text-white font-bold py-3 sm:py-4 rounded-xl sm:rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl animate-pulse"
+                    className="w-full bg-gradient-to-r mt-5 from-red-600 via-red-500 to-orange-500 hover:from-red-700 hover:via-red-600 hover:to-orange-600 text-white font-bold py-3 sm:py-4 rounded-xl sm:rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl animate-pulse"
                 >
                     <div className="flex items-center justify-center space-x-2">
                         <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -223,7 +226,12 @@ export default function PlanPage() {
                         <Flame className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
                 </button>
-
+                <button
+                    onClick={handlePaypalCheckout}
+                    className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-full transition"
+                >
+                    Pay with PayPal
+                </button>
                 {/* Trust Indicators */}
                 <div className="mt-4 sm:mt-6 text-center">
                     <p className="text-gray-400 text-xs sm:text-sm">

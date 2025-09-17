@@ -17,7 +17,21 @@ export default function PlanPage() {
     const [timeLeft, setTimeLeft] = useState(10 * 60);
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState<'Male' | 'Female' | ''>('');
+    const handlePaypalCheckout = async () => {
+        const res = await fetch("/api/paypal", { method: "POST" });
 
+        if (!res.ok) {
+            alert("Failed to create PayPal order");
+            return;
+        }
+
+        const data = await res.json();
+        if (data?.url) {
+            window.location.href = data.url; // Redirect to PayPal checkout
+        } else {
+            alert("PayPal order creation failed");
+        }
+    };
     useEffect(() => {
         const interval = setInterval(() => {
             setTimeLeft((prev) => Math.max(prev - 1, 0));
@@ -132,6 +146,12 @@ export default function PlanPage() {
                     className="mt-10 w-full bg-gradient-to-r from-pink-500 to-orange-400 hover:opacity-90 text-white font-semibold py-3 rounded-full transition"
                 >
                     Get my plan
+                </button>
+                <button
+                    onClick={handlePaypalCheckout}
+                    className="mt-4 w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-3 rounded-full transition"
+                >
+                    Pay with PayPal
                 </button>
             </div>
 
