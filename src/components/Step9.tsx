@@ -176,7 +176,7 @@ export default function PlanPage() {
                     </div>
                     <p className="text-gray-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                         Get your <span className="font-semibold text-white">4-Week Customized Carnivore Meal Plan {" "}</span>
-                        for just <span className="font-extrabold text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-300 animate-pulse">$24.99</span>
+                        for just <span className="font-extrabold text-2xl sm:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-yellow-300 animate-pulse">$27.99</span>
                         (<span className="line-through text-gray-400">$197</span>) — an insane
                         <span className="text-green-400 font-bold animate-pulse"> 85.8% OFF!</span>
                     </p>
@@ -193,7 +193,7 @@ export default function PlanPage() {
                                 <CheckCircle className="w-6 h-6 text-green-400 relative" />
                             </div>
                             <span className="text-gray-200 text-sm sm:text-base leading-snug">
-                                <span className="font-bold text-white">Only $24.99</span> for your 4-week customized meal plan
+                                <span className="font-bold text-white">Only $27.99</span> for your 4-week customized meal plan
                             </span>
                         </li>
 
