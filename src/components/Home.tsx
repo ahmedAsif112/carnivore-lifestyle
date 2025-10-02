@@ -6,6 +6,7 @@ import collage from "@/assets/collagehero.png"
 import cow from "@/assets/cow.jpg"
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
+import { Button } from "antd";
 const CarnivoreFunnelPage = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [scrollY, setScrollY] = useState(0);
@@ -189,10 +190,12 @@ const CarnivoreFunnelPage = () => {
                                 <Flame className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
+                                {/* <h1 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
                                     CARNIVORE
+                                </h1> */}
+                                <h1 className="text-2xl font-serif font-normal text-white">
+                                    Carnivore Diet
                                 </h1>
-                                <p className="text-xs text-gray-400 -mt-1">Elite Protocol</p>
                             </div>
                         </div>
                         <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-400">
@@ -229,8 +232,16 @@ const CarnivoreFunnelPage = () => {
                                     why this ancient way of eating is the key to unlocking your body’s true potential.
                                 </p>
 
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                    className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-full px-8 py-5 shadow-lg"
+                                >
+                                    Buy Now
+                                </Button>
+
                                 {/* Trust Indicators */}
-                                <div className="flex flex-wrap gap-6 mb-6 text-sm text-gray-400">
+                                <div className="flex flex-wrap gap-6 mb-6 text-sm pt-7 text-gray-400">
                                     <div className="flex items-center space-x-2">
                                         <CheckCircle className="w-4 h-4 text-green-500" />
                                         <span>Science-Backed</span>
