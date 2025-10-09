@@ -88,6 +88,8 @@ export default function PlanPage() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-red-950 to-black overflow-hidden">
             {/* Animated Background Elements */}
+            {/* Animated Background Elements */}
+
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-20 right-4 sm:right-10 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-full opacity-60 blur-xl animate-pulse" />
                 <div className="absolute bottom-40 left-4 sm:left-10 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-amber-500/20 to-red-500/20 rounded-full opacity-40 blur-lg animate-bounce" />
