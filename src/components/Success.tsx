@@ -14,7 +14,6 @@ export default function SuccessPage() {
     const hasSent = useRef(false);
     const router = useRouter();
 
-    console.log("sessionId", sessionId)
 
     useEffect(() => {
         // Wait until we have a valid sessionId from URL
