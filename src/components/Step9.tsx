@@ -62,7 +62,7 @@ export default function PlanPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ planId: selectedPlan }),
+            body: JSON.stringify({ planId: selectedPlan, email }),
         });
 
         if (!res.ok) {
@@ -83,8 +83,8 @@ export default function PlanPage() {
         } else {
             alert('Payment session creation failed.');
         }
-    };
 
+    };
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-red-950 to-black overflow-hidden">
             {/* Animated Background Elements */}

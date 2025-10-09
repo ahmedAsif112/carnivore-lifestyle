@@ -60,7 +60,7 @@ export default function PlanPage() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ planId: selectedPlan }),
+            body: JSON.stringify({ planId: selectedPlan, email }),
         });
 
         if (!res.ok) {
