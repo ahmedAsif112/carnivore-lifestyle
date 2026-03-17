@@ -12,8 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <Analytics />
+      <body className="antialiased flex flex-col">        <Analytics />
         <ReferralTracker /> {/* 👈 Inject the tracking script */}
         <ConfigProvider
           theme={{
